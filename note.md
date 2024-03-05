@@ -11,3 +11,10 @@
 - Express general mothods of computation
 - Remove repetition from programs
 - Separate concerns among functions
+
+## Some benefit of using lambda expression
+
+- Make the name space clean
+- Replace a function when it is simple
+
+Notice: lambda don't gave you more power and you do not need to write it at all.

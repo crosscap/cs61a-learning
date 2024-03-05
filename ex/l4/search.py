@@ -29,4 +29,10 @@ def inverse(f):
     >>> sqrt(256)
     16
     """
-    return lambda y: search(lambda x: f(x) == y)
+    # return lambda y: search(lambda x: f(x) == y)
+    def inverse_of_f(y):
+        def is_inverse_of_y(x):
+            return f(x) == y
+        return search(is_inverse_of_y)
+
+    return inverse_of_f
