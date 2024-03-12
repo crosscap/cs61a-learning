@@ -63,4 +63,5 @@ Idea: Figure out what state must be maintained by the iterative function.
 ## Converting Iteration to Recursion
 
 More formulaic: Iteration is a special case of recursion.
+
 Idea: The state of an iteration can be passed as arguments.
