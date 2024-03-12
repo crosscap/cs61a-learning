@@ -1,4 +1,4 @@
-# note
+# note of CS61A
 
 ## A Guide to Designing Function
 
@@ -39,3 +39,28 @@ When a function is called
 - Names should convey the meaning or purpose of the values to which they are bound.
 - The type of value bound to the name is best documented in a function's docstring.
 - Function names typically convey their effect (`print`), their behavior (`triple`), or the value returned (`abs`).
+
+## What happens when you call Recursion Function
+
+- The same function `fact` is called multiple times
+- Different frames keep track of the different arguments in each call
+- What `n` evaluates to depends upon the current environment
+- Each call to `fact` solves a simpler problem than the last: smaller `n`
+
+## The Recursive Leap of Faith
+
+1. Verify the base case
+2. Treat `fact` as a functional abstraction!
+3. Assume that `fact(n-1)` is correct
+4. Verify that `fact(n)` is correct
+
+## Converting Recursion to Iteration
+
+Can be tricky: Iteration is a special case of recursion.
+
+Idea: Figure out what state must be maintained by the iterative function.
+
+## Converting Iteration to Recursion
+
+More formulaic: Iteration is a special case of recursion.
+Idea: The state of an iteration can be passed as arguments.
