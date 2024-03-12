@@ -24,13 +24,13 @@ def roll_dice(num_rolls, dice=six_sided):
     # BEGIN PROBLEM 1
     k = 0
     sum = 0
-    one_flag = False
+    rolled_a_one = False
     while k < num_rolls:
-        if not one_flag:
+        if not rolled_a_one:
             result = dice()
             if result == 1:
                 sum = 1
-                one_flag = True
+                rolled_a_one = True
             else:
                 sum += result
         else:
@@ -429,13 +429,13 @@ def run_experiments():
         six_sided_max = max_scoring_num_rolls(six_sided)
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
 
-    if False:  # Change to True to test always_roll(8)
+    if True:  # Change to True to test always_roll(8)
         print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
 
-    if False:  # Change to True to test bacon_strategy
+    if True:  # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
-    if False:  # Change to True to test extra_turn_strategy
+    if True:  # Change to True to test extra_turn_strategy
         print('extra_turn_strategy win rate:',
               average_win_rate(extra_turn_strategy))
 
