@@ -1,4 +1,5 @@
-HW_SOURCE_FILE=__file__
+from operator import sub, mul
+HW_SOURCE_FILE = __file__
 
 
 def num_eights(x):
@@ -22,7 +23,13 @@ def num_eights(x):
     ...       ['Assign', 'AugAssign'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    if x == 0:
+        return 0
+    else:
+        if x % 10 == 8:
+            return num_eights(x // 10) + 1
+        else:
+            return num_eights(x // 10)
 
 
 def pingpong(n):
@@ -57,7 +64,27 @@ def pingpong(n):
     >>> check(HW_SOURCE_FILE, 'pingpong', ['Assign', 'AugAssign'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    def halper(i, ping_pong_num, incOrDec):
+        if i == n:
+            return ping_pong_num
+        else:
+            if num_eights(i) != 0 or i % 8 == 0:
+                return halper(i + 1, ping_pong_num - incOrDec, -incOrDec)
+            else:
+                return halper(i + 1, ping_pong_num + incOrDec, incOrDec)
+
+    return halper(1, 1, 1)
+
+
+def pingpong_iter(n):
+    i = 1
+    ping_pong = 0
+    incOrDec = 1  # 1 means increase and -1 means decrease
+    while i <= n:
+        ping_pong += incOrDec
+        if num_eights(i) != 0 or i % 8 == 0:
+            incOrDec = -incOrDec
+    return ping_pong
 
 
 def missing_digits(n):
@@ -87,11 +114,20 @@ def missing_digits(n):
     >>> check(HW_SOURCE_FILE, 'missing_digits', ['While', 'For'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    def halper(num, last_num):
+        end_num = num % 10
+        if num == 0:
+            return 0
+        elif end_num != last_num:
+            return halper(num // 10, end_num) + (last_num - end_num - 1)
+        else:
+            return halper(num // 10, end_num)
+
+    return halper(n // 10, n % 10)
 
 
 def next_largest_coin(coin):
-    """Return the next coin. 
+    """Return the next coin.
     >>> next_largest_coin(1)
     5
     >>> next_largest_coin(5)
@@ -120,13 +156,23 @@ def count_coins(total):
     242
     >>> from construct_check import check
     >>> # ban iteration
-    >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])                                          
+    >>> check(HW_SOURCE_FILE, 'count_coins', ['While', 'For'])
     True
     """
-    "*** YOUR CODE HERE ***"
+    def coins_min_divide(total, min_coin):
+        if total == 0:
+            return 1
+        elif min_coin == None:
+            return 0
+        elif total < min_coin:
+            return 0
+        else:
+            with_min = coins_min_divide(total-min_coin, min_coin)
+            without_min = coins_min_divide(total, next_largest_coin(min_coin))
+            return with_min + without_min
 
+    return coins_min_divide(total, 1)
 
-from operator import sub, mul
 
 def make_anonymous_factorial():
     """Return the value of an expression that computes factorial.
@@ -138,5 +184,7 @@ def make_anonymous_factorial():
     >>> check(HW_SOURCE_FILE, 'make_anonymous_factorial', ['Assign', 'AugAssign', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    return (lambda f: lambda n: 1 if n == 1 else f(f, n))(lambda function, x: 1 if x == 1 else x * function(function, x - 1))
+# So Diffcult! I get help from Networks! It coms from a problem meet by two
+# computer scientist. They finally gave the solution called Y-combinator.
+# But I think this solution use the thinking of curry, also very amazing.
