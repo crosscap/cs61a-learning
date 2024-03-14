@@ -12,8 +12,6 @@ def count_partitions(n, m):
         return 0
     elif m == 0:
         return 0
-    elif n <= m:
-        return count_partitions(n, n)
     else:
         with_m = count_partitions(n - m, m)
         without_m = count_partitions(n, m - 1)
