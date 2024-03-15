@@ -187,4 +187,4 @@ def make_anonymous_factorial():
     return (lambda f: lambda n: 1 if n == 1 else f(f, n))(lambda function, x: 1 if x == 1 else x * function(function, x - 1))
 # So Diffcult! I get help from Networks! It coms from a problem meet by two
 # computer scientist. They finally gave the solution called Y-combinator.
-# But I think this solution use the thinking of curry, also very amazing.
+# But this solution use the thinking of curry, also very beautiful if you like lambda expression.
