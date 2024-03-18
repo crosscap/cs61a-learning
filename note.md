@@ -65,3 +65,10 @@ Idea: Figure out what state must be maintained by the iterative function.
 More formulaic: Iteration is a special case of recursion.
 
 Idea: The state of an iteration can be passed as arguments.
+
+## Data Abstraction
+
+- Lets us manipulate compound values as units
+- Isolate two parts of any program that uses data
+  - How data are represented (as parts)
+  - How data are manipulated (as units)
