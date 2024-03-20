@@ -16,7 +16,14 @@ def choose(paragraphs, select, k):
     the empty string.
     """
     # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
+    index = 0
+    for word in paragraphs:
+        if select(word) == True:
+            if (index == k):
+                return word
+            else:
+                index += 1
+    return ''
     # END PROBLEM 1
 
 
@@ -32,7 +39,15 @@ def about(topic):
     """
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
     # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
+
+    def compare_strList_with_topic(str_list):
+        clean_str_list = lower(remove_punctuation(str_list))
+        words = split(clean_str_list)
+        for word in words:
+            if word in topic:
+                return True
+        return False
+    return compare_strList_with_topic
     # END PROBLEM 2
 
 
@@ -56,7 +71,15 @@ def accuracy(typed, reference):
     typed_words = split(typed)
     reference_words = split(reference)
     # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
+    index, same_counter = 0, 0
+    str_length = min(len(typed_words), len(reference_words))
+    if str_length == 0:
+        return 0.0
+    while index < str_length:
+        if typed_words[index] == reference_words[index]:
+            same_counter += 1
+        index += 1
+    return (same_counter / len(typed_words)) * 100.0
     # END PROBLEM 3
 
 
@@ -64,7 +87,7 @@ def wpm(typed, elapsed):
     """Return the words-per-minute (WPM) of the TYPED string."""
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    return len(typed) / 5 * 60 / elapsed
     # END PROBLEM 4
 
 
@@ -92,18 +115,18 @@ def pawssible_patches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
     assert False, 'Remove this line'
 
-    if ______________: # Fill in the condition
+    if ______________:  # Fill in the condition
         # BEGIN
         "*** YOUR CODE HERE ***"
         # END
 
-    elif ___________: # Feel free to remove or add additional cases
+    elif ___________:  # Feel free to remove or add additional cases
         # BEGIN
         "*** YOUR CODE HERE ***"
         # END
 
     else:
-        add_diff = ... # Fill in these lines
+        add_diff = ...  # Fill in these lines
         remove_diff = ...
         substitute_diff = ...
         # BEGIN
@@ -162,8 +185,10 @@ def fastest_words(game):
     Returns:
         a list of lists containing which words each player typed fastest
     """
-    player_indices = range(len(all_times(game)))  # contains an *index* for each player
-    word_indices = range(len(all_words(game)))    # contains an *index* for each word
+    player_indices = range(len(all_times(game))
+                           )  # contains an *index* for each player
+    # contains an *index* for each word
+    word_indices = range(len(all_words(game)))
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
     # END PROBLEM 10
@@ -171,10 +196,14 @@ def fastest_words(game):
 
 def game(words, times):
     """A data abstraction containing all words typed and their times."""
-    assert all([type(w) == str for w in words]), 'words should be a list of strings'
-    assert all([type(t) == list for t in times]), 'times should be a list of lists'
-    assert all([isinstance(i, (int, float)) for t in times for i in t]), 'times lists should contain numbers'
-    assert all([len(t) == len(words) for t in times]), 'There should be one word per time.'
+    assert all([type(w) == str for w in words]
+               ), 'words should be a list of strings'
+    assert all([type(t) == list for t in times]
+               ), 'times should be a list of lists'
+    assert all([isinstance(i, (int, float))
+               for t in times for i in t]), 'times lists should contain numbers'
+    assert all([len(t) == len(words) for t in times]
+               ), 'There should be one word per time.'
     return [words, times]
 
 
@@ -205,6 +234,7 @@ def game_string(game):
     """A helper function that takes in a game object and returns a string representation of it"""
     return "game(%s, %s)" % (game[0], game[1])
 
+
 enable_multiplayer = False  # Change to True when you're ready to race.
 
 ##########################
@@ -215,7 +245,7 @@ enable_multiplayer = False  # Change to True when you're ready to race.
 def run_typing_test(topics):
     """Measure typing speed and accuracy on the command line."""
     paragraphs = lines_from_file('data/sample_paragraphs.txt')
-    select = lambda p: True
+    def select(p): return True
     if topics:
         select = about(topics)
     i = 0
