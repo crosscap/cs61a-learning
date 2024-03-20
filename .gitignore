@@ -169,6 +169,7 @@ cython_debug/
 *.o
 main
 tempCodeRunnerFile.*
+*/__pycache__/
 
 # Ignore the results of run ok
 .ok_storage
