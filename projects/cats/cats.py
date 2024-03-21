@@ -97,7 +97,19 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     than LIMIT.
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    min_diff = limit
+    min_word = ''
+    for vaild_word in valid_words:
+        if user_word == vaild_word:
+            return user_word
+        diff_num = diff_function(user_word, vaild_word, limit)
+        if (min_word == '' and diff_num <= min_diff) \
+                or (min_word != '' and diff_num < min_diff):
+            min_diff = diff_num
+            min_word = vaild_word
+        # print("DEBUG:", vaild_word, diff_num, min_word)
+
+    return min_word if min_word != '' else user_word
     # END PROBLEM 5
 
 
@@ -106,31 +118,52 @@ def shifty_shifts(start, goal, limit):
     in START need to be substituted to create GOAL, then adds the difference in
     their lengths.
     """
+    # assert False, 'Remove this line'
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+
+    if start == '' or goal == '' or limit < 0:
+        return abs(len(goal) - len(start))
+    elif start[0] == goal[0]:
+        return shifty_shifts(start[1:], goal[1:], limit)
+    else:
+        return shifty_shifts(start[1:], goal[1:], limit - 1) + 1
     # END PROBLEM 6
+
+    # Implemention with halper function
+    # def halper(start, goal, limit, counter):
+    #     chenge_count = abs(len(goal) - len(start))
+    #     if start == '' or goal == '':
+    #         return counter
+    #     elif counter == limit + 1:
+    #         return limit + 1
+    #     elif start[0] == goal[0]:
+    #         return halper(start[1:], goal[1:], limit, counter)
+    #     else:
+    #         return halper(start[1:], goal[1:], limit, counter+1)
+
+    # return halper(start, goal, limit, chenge_count)
 
 
 def pawssible_patches(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
-
-    if ______________:  # Fill in the condition
+    # assert False, 'Remove this line'
+    print("DEBUG:", start, goal, limit)
+    if start == '' or goal == '' or limit < 0:  # Fill in the condition
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return abs(len(goal) - len(start))
         # END
 
-    elif ___________:  # Feel free to remove or add additional cases
+    elif start[0] == goal[0]:  # Feel free to remove or add additional cases
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return pawssible_patches(start[1:], goal[1:], limit)
         # END
 
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ...
-        substitute_diff = ...
+        add_diff = pawssible_patches(goal[0]+start, goal, limit-1)
+        remove_diff = pawssible_patches(start[1:], goal, limit-1)
+        substitute_diff = pawssible_patches(start[1:], goal[1:], limit-1)
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return min(add_diff, remove_diff, substitute_diff) + 1
         # END
 
 
