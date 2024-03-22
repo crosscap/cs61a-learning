@@ -70,5 +70,5 @@ Idea: The state of an iteration can be passed as arguments.
 
 - Lets us manipulate compound values as units
 - Isolate two parts of any program that uses data
-  - How data are represented (as parts)
-  - How data are manipulated (as units)
+    - How data are represented (as parts)
+    - How data are manipulated (as units)
