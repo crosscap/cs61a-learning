@@ -120,7 +120,6 @@ def shifty_shifts(start, goal, limit):
     """
     # assert False, 'Remove this line'
     # BEGIN PROBLEM 6
-
     if start == '' or goal == '' or limit < 0:
         return abs(len(goal) - len(start))
     elif start[0] == goal[0]:
@@ -140,7 +139,6 @@ def shifty_shifts(start, goal, limit):
     #         return halper(start[1:], goal[1:], limit, counter)
     #     else:
     #         return halper(start[1:], goal[1:], limit, counter+1)
-
     # return halper(start, goal, limit, chenge_count)
 
 
@@ -179,8 +177,15 @@ def final_diff(start, goal, limit):
 
 def report_progress(typed, prompt, user_id, send):
     """Send a report of your id and progress so far to the multiplayer server."""
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    i = 0
+    while i < len(typed):
+        if typed[i] != prompt[i]:
+            break
+        i += 1
+    accuracy_num = i / len(prompt)
+    user_info = {'id': user_id, 'progress': accuracy_num}
+    send(user_info)
+    return accuracy_num
     # END PROBLEM 8
 
 
@@ -206,7 +211,11 @@ def time_per_word(times_per_player, words):
         words: a list of words, in the order they are typed.
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    for player in range(len(times_per_player)):
+        for word in range(len(times_per_player[player])-1, 0, -1):
+            times_per_player[player][word] -= times_per_player[player][word-1]
+    times = [player_tiems[1:] for player_tiems in times_per_player]
+    return game(words, times)
     # END PROBLEM 9
 
 
@@ -218,12 +227,26 @@ def fastest_words(game):
     Returns:
         a list of lists containing which words each player typed fastest
     """
-    player_indices = range(len(all_times(game))
-                           )  # contains an *index* for each player
+    # contains an *index* for each player
+    player_indices = range(len(all_times(game)))
     # contains an *index* for each word
     word_indices = range(len(all_words(game)))
     # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
+    word_fastest = list(word_indices)
+    for word in word_indices:
+        min_time = time(game, 0, word)
+        min_index = 0
+        for player in player_indices:
+            if time(game, player, word) < min_time:
+                min_time = time(game, player, word)
+                min_index = player
+        word_fastest[word] = min_index
+    # print("DEBUG:", word_fastest)
+    player_fastest_list = \
+        [[word_at(game, word) for word in word_indices
+          if word_fastest[word] == player]
+         for player in player_indices]
+    return player_fastest_list
     # END PROBLEM 10
 
 
