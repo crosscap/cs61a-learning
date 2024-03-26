@@ -312,9 +312,25 @@ def add_trees(t1, t2):
         5
       5
     """
+    # print("DEBUG:", label(t1) + label(t2))
 
+    if is_leaf(t1) or is_leaf(t2):
+        bs = branches(t2) if is_tree(t1) else branches(t1)
+    else:
 
-# numbers = tree(1, [tree(2, [tree(3), tree(4)]), tree(5, [tree(6, [tree(7)]), tree(8)])])
+        # without function zip
+
+        bs_t1 = branches(t1)
+        bs_t2 = branches(t2)
+        if len(branches(t1)) <= len(branches(t2)):
+            length = len(branches(t1))
+            last_bs = bs_t2[length:]
+        else:
+            length = len(branches(t2))
+            last_bs = bs_t1[length:]
+        bs = [add_trees(bs_t1[i], bs_t2[i]) for i in range(length)] + last_bs
+
+    return tree(label(t1) + label(t2), bs)
 
 
 def build_successors_table(tokens):
@@ -335,8 +351,8 @@ def build_successors_table(tokens):
     prev = '.'
     for word in tokens:
         if prev not in table:
-            "*** YOUR CODE HERE ***"
-        "*** YOUR CODE HERE ***"
+            table[prev] = []
+        table[prev] += [word]
         prev = word
     return table
 
@@ -354,11 +370,13 @@ def construct_sent(word, table):
     import random
     result = ''
     while word not in ['.', '!', '?']:
-        "*** YOUR CODE HERE ***"
+        # print('DEBUG:', word)
+        result = result + ' ' + word
+        word = random.choice(table[word])
     return result.strip() + word
 
 
-def shakespeare_tokens(path='shakespeare.txt', url='http://composingprograms.com/shakespeare.txt'):
+def shakespeare_tokens(path='shakespeare.txt', url='https://www.composingprograms.com/shakespeare.txt'):
     """Return the words of Shakespeare's plays as a list."""
     import os
     from urllib.request import urlopen
@@ -368,9 +386,10 @@ def shakespeare_tokens(path='shakespeare.txt', url='http://composingprograms.com
         shakespeare = urlopen(url)
         return shakespeare.read().decode(encoding='ascii').split()
 
+
 # Uncomment the following two lines
-# tokens = shakespeare_tokens()
-# table = build_successors_table(tokens)
+tokens = shakespeare_tokens()
+table = build_successors_table(tokens)
 
 
 def random_sent():
