@@ -79,3 +79,15 @@ Idea: The state of an iteration can be passed as arguments.
 - *Functions*. Functions are our primary mechanism for abstraction, and so each function should ideally have a single job that can be used throughout a program. When given the choice between calling a function or copying and pasting its body, strive to call the function and maintain abstraction in your program. See the lecture notes section on composing functions for more suggestions.
 - *Purpose*. Each line of code in a program should have a purpose. Statements should be removed if they no longer have any effect (perhaps because they were useful for a previous version of the program, but are no longer needed). Large blocks of unused code, even when turned into comments, are confusing to readers. Feel free to keep your old implementations in a separate file for your own use, but don't turn them in as your finished product.
 - *Brevity*. An idea expressed in four lines of code is often clearer than the same idea expressed in forty. You do not need to try to minimize the length of your program, but look for opportunities to reduce the size of your program substantially by reusing functions you have already defined.
+
+## Objects
+
+- Objects represent information
+- They consist of data and behavior, bundled together to create abstractions
+- Objects can represent things, but also properties, interactions, & processes
+- A type of object is called a class; *classes* are first-class values in Python
+
+## Object-oriented programming
+
+- A metaphor for organizing large programs
+- Special syntax that can improve the composition of programs

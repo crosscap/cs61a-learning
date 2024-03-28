@@ -68,21 +68,35 @@ def find_path(tree, x):
     [2, 7, 6, 5]
     >>> find_path(t, 10) # returns None
     """
+    # Version1
+    # if label(tree) == x:
+    #     return [x]
+    # elif not is_leaf(tree):
+    #     path = [find_path(b, x) for b in branches(tree) if find_path(b, x)]
+    #     if path != []:
+    #         return [label(tree)] + path[0]
+
     if label(tree) == x:
         return [x]
     elif not is_leaf(tree):
-        path = [find_path(b, x) for b in branches(tree) if find_path(b, x)]
-        if path != []:
-            return [label(tree)] + path[0]
+        path = []
+        for b in branches(tree):
+            new_path = find_path(b, x)
+            path += new_path if new_path != None else []
+        return [label(tree)] + path if path != [] else None
 
 
 # 2.2
 # wrong
 def prune_binary(t, nums):
     """
-    >>> t = tree('1', [tree('0', [tree('0'), tree('1')]), tree('1', [tree('0')])])
-    >>> prune binary(t, ['01', '110', '100'])
-    ['1', ['0']]
+    >>> t = tree("1", [tree("0", [tree("0"), tree("1")]), tree("1", [tree("0")])])
+    >>> print_tree(prune_binary(t, ["01", "110", "100"]))
+    1
+      0
+        0
+      1
+        0
     """
     if is_leaf(t):
         if label(t) in nums:
