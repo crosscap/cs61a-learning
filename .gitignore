@@ -159,8 +159,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# files stroed by vim
+# temporary files stroed by vim or other editor
 *~
+*.swp
 
 # My personal ignore
 .vscode
@@ -174,3 +175,6 @@ tempCodeRunnerFile.*
 # Ignore the results of run ok
 .ok_storage
 .ok_history
+
+# a temporary file when I learn other course
+ds/
