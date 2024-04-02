@@ -6,6 +6,13 @@
 - Don’t repeat yourself (DRY): Implement a process just once, but execute it many times
 - Defines function *generally*
 
+## Excellent composition guidline
+
+- *Names*. To a computer, names are arbitrary symbols: "xegyawebpi" and "foo" are just as meaningful as "tally" and "denominator". To humans, comprehensible names aid immensely in comprehending programs. Choose names for your functions and values that indicate their use, purpose, and meaning. See the lecture notes section on choosing names for more suggestions.
+- *Functions*. Functions are our primary mechanism for abstraction, and so each function should ideally have a single job that can be used throughout a program. When given the choice between calling a function or copying and pasting its body, strive to call the function and maintain abstraction in your program. See the lecture notes section on composing functions for more suggestions.
+- *Purpose*. Each line of code in a program should have a purpose. Statements should be removed if they no longer have any effect (perhaps because they were useful for a previous version of the program, but are no longer needed). Large blocks of unused code, even when turned into comments, are confusing to readers. Feel free to keep your old implementations in a separate file for your own use, but don't turn them in as your finished product.
+- *Brevity*. An idea expressed in four lines of code is often clearer than the same idea expressed in forty. You do not need to try to minimize the length of your program, but look for opportunities to reduce the size of your program substantially by reusing functions you have already defined.
+
 ## Higher-order functions
 
 - Express general mothods of computation
@@ -73,13 +80,6 @@ Idea: The state of an iteration can be passed as arguments.
     - How data are represented (as parts)
     - How data are manipulated (as units)
 
-## Excellent composition guidline
-
-- *Names*. To a computer, names are arbitrary symbols: "xegyawebpi" and "foo" are just as meaningful as "tally" and "denominator". To humans, comprehensible names aid immensely in comprehending programs. Choose names for your functions and values that indicate their use, purpose, and meaning. See the lecture notes section on choosing names for more suggestions.
-- *Functions*. Functions are our primary mechanism for abstraction, and so each function should ideally have a single job that can be used throughout a program. When given the choice between calling a function or copying and pasting its body, strive to call the function and maintain abstraction in your program. See the lecture notes section on composing functions for more suggestions.
-- *Purpose*. Each line of code in a program should have a purpose. Statements should be removed if they no longer have any effect (perhaps because they were useful for a previous version of the program, but are no longer needed). Large blocks of unused code, even when turned into comments, are confusing to readers. Feel free to keep your old implementations in a separate file for your own use, but don't turn them in as your finished product.
-- *Brevity*. An idea expressed in four lines of code is often clearer than the same idea expressed in forty. You do not need to try to minimize the length of your program, but look for opportunities to reduce the size of your program substantially by reusing functions you have already defined.
-
 ## Objects
 
 - Objects represent information
@@ -91,3 +91,34 @@ Idea: The state of an iteration can be passed as arguments.
 
 - A metaphor for organizing large programs
 - Special syntax that can improve the composition of programs
+
+## Classes
+
+A class serves as a template for its instances.
+
+## The relationship between class and object
+
+- A class combines (and abstract) data and functions
+- A obiect is an instantation of a class
+
+## The relationship between date abstraction and object oriented programming
+
+- data
+- functions
+    - constructor (`__init__`)
+        - allocate memory for the object
+        - initializes the object with values
+        - returns address of the object
+    - selectors
+    - methods (functions)
+
+## When a class is called
+
+1. A new instance of the class is created
+2. The `__init__` method is called with the instance as its first argument (named `self`), along with any additional arguments provided in the call expression.
+
+## Methods and Functions
+
+- Functions, which we have been creating since the beginning of the course, and
+- Bound methods, which couple together a function and the object on which that method will be invoked
+    > object + function = bound method
