@@ -122,3 +122,21 @@ A class serves as a template for its instances.
 - Functions, which we have been creating since the beginning of the course, and
 - Bound methods, which couple together a function and the object on which that method will be invoked
     > object + function = bound method
+
+## Looking Up Attribute Names on Classe
+
+1. If the object is an instance, then assignment sets an instance attribute
+2. If it names an attribute in the class, return the attribute value.
+3. Otherwise, look up the name in the base class, if there is one.
+4. If the attribute is a function, return a bound method.
+
+## Designing for Inheritance
+
+- Don't repeat yourself; use existing implementations
+- Attributes that have been overridden are still accessible via class objects
+- Look up attributes on instances whenever possible
+
+## Inheritance and Composition
+
+- Inheritance is best for representing is-a relationships
+- Composition is best for representing has-a relationships
