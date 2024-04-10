@@ -79,13 +79,13 @@ class Insect:
         """
 
     def death_callback(self):
-        # overriden by the gui
+        # overridden by the gui
         pass
 
     def add_to(self, place):
         """Add this Insect to the given Place
 
-        By default just sets the place attribute, but this should be overriden in the subclasses
+        By default just sets the place attribute, but this should be overridden in the subclasses
             to manipulate the relevant attributes of Place
         """
         self.place = place
@@ -162,6 +162,8 @@ class ThrowerAnt(Ant):
     implemented = True
     damage = 1
     food_cost = 3
+    min_range = 0
+    max_range = float('inf')
 
     def nearest_bee(self, beehive):
         """Return the nearest Bee in a Place that is not the HIVE (beehive), connected to
@@ -170,15 +172,30 @@ class ThrowerAnt(Ant):
         This method returns None if there is no such Bee (or none in range).
         """
         # BEGIN Problem 3 and 4
-        checking_place = self.place
-        while checking_place.entrance != beehive:
-            if checking_place.bees == []:
-                checking_place = checking_place.entrance
-            else:
-                break
 
-        return rANTdom_else_none(checking_place.bees)  # REPLACE THIS LINE
-        # END Problem 3 and 4
+        # Iter Version
+        checking_place = self.place
+        how_far = 0
+        while (checking_place.entrance != beehive and
+                (checking_place.bees == [] or
+                 not self.min_range <= how_far <= self.max_range)):
+            checking_place = checking_place.entrance
+            how_far += 1
+        # print('DEBUG', checking_place.name, checking_place.bees)
+        return rANTdom_else_none(checking_place.bees)
+
+        # Recu Version
+        # def get_nearest_bee(checking_place, howFar=0):
+        #     # print('DEBUG', checking_place.name, checking_place.bees)
+        #     if checking_place == beehive or howFar > self.max_range:
+        #         return []
+        #     elif checking_place.bees == [] or howFar < self.min_range:
+        #         return get_nearest_bee(checking_place.entrance, howFar+1)
+        #     else:
+        #         return checking_place.bees
+        # # print('DEBUG', get_nearest_bee(self.place))
+        # return rANTdom_else_none(get_nearest_bee(self.place))
+        # # END Problem 3 and 4
 
     def throw_at(self, target):
         """Throw a leaf at the TARGET Bee, reducing its armor."""
@@ -207,9 +224,10 @@ class ShortThrower(ThrowerAnt):
 
     name = 'Short'
     food_cost = 2
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    max_range = 3
+
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -218,9 +236,10 @@ class LongThrower(ThrowerAnt):
 
     name = 'Long'
     food_cost = 2
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    min_range = 5
+
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -247,7 +266,10 @@ class FireAnt(Ant):
         if the fire ant dies.
         """
         # BEGIN Problem 5
-        "*** YOUR CODE HERE ***"
+        copy_bees = self.place.bees
+        for bee in copy_bees:
+            Insect.reduce_armor(self.place.bees.index(bee), amount)
+        Ant.reduce_armor(amount)
         # END Problem 5
 
 
