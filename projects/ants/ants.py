@@ -16,7 +16,7 @@ class Place:
         """Create a Place with the given NAME and EXIT.
 
         name -- A string; the name of this Place.
-        exit -- The Place reached by exiting this Place (may be None).
+        exit -- The Place reached by exiting this Place (maybe None).
         """
         self.name = name
         self.exit = exit
@@ -25,20 +25,20 @@ class Place:
         self.entrance = None  # A Place
         # Phase 1: Add an entrance to the exit
         # BEGIN Problem 2
-        if exit != None:
+        if exit is not None:
             exit.entrance = self
         # END Problem 2
 
     def add_insect(self, insect):
         """
-        Asks the insect to add itself to the current place. This method exists so
+        Asks the insect to add itself to the current place. This method exists, so
             it can be enhanced in subclasses.
         """
         insect.add_to(self)
 
     def remove_insect(self, insect):
         """
-        Asks the insect to remove itself from the current place. This method exists so
+        Asks the insect to remove itself from the current place. This method exists, so
             it can be enhanced in subclasses.
         """
         insect.remove_from(self)
@@ -51,7 +51,7 @@ class Insect:
     """An Insect, the base class of Ant and Bee, has armor and a Place."""
 
     damage = 0
-    # ADD CLASS ATTRIBUTES HERE
+    is_watersafe = False
 
     def __init__(self, armor, place=None):
         """Create an Insect with an ARMOR amount and a starting PLACE."""
@@ -85,7 +85,7 @@ class Insect:
     def add_to(self, place):
         """Add this Insect to the given Place
 
-        By default just sets the place attribute, but this should be overridden in the subclasses
+        By default, just sets the place attribute, but this should be overridden in the subclasses
             to manipulate the relevant attributes of Place
         """
         self.place = place
@@ -209,8 +209,8 @@ class ThrowerAnt(Ant):
 
 def rANTdom_else_none(s):
     """Return a random element of sequence S, or return None if S is empty."""
-    assert isinstance(
-        s, list), "rANTdom_else_none's argument should be a list but was a %s" % type(s).__name__
+    assert isinstance(s, list), \
+        ("rANTdom_else_none's argument should be a list but was a %s" % type(s).__name__)
     if s:
         return random.choice(s)
 
@@ -271,10 +271,11 @@ class FireAnt(Ant):
         for bee in copy_bees:
             Insect.reduce_armor(place_bees[place_bees.index(bee)], amount)
         Ant.reduce_armor(self, amount)
-        if self.place == None:
+        if self.place is None:
             copy_bees = place_bees[:]
             for bee in copy_bees:
-                Insect.reduce_armor(place_bees[place_bees.index(bee)], self.damage)
+                Insect.reduce_armor(
+                    place_bees[place_bees.index(bee)], self.damage)
         # END Problem 5
 
 
@@ -284,29 +285,41 @@ class HungryAnt(Ant):
     """
     name = 'Hungry'
     food_cost = 4
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    time_to_digest = 3
     # BEGIN Problem 6
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 6
 
     def __init__(self, armor=1):
         # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
+        Ant.__init__(self, armor)
+        self.digesting = 0
         # END Problem 6
 
     def eat_bee(self, bee):
         # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
+        if bee is not None:
+            bee.reduce_armor(bee.armor)
+            self.digesting = self.time_to_digest
         # END Problem 6
 
     def action(self, gamestate):
         # BEGIN Problem 6
-        "*** YOUR CODE HERE ***"
+        if self.digesting != 0:
+            self.digesting -= 1
+        else:
+            self.eat_bee(rANTdom_else_none(self.place.bees))
         # END Problem 6
 
 
 # BEGIN Problem 7
-# The WallAnt class
+class WallAnt(Ant):
+    name = 'Wall'
+    food_cost = 4
+    implemented = True
+
+    def __init__(self, armor=4):
+        Ant.__init__(self, armor)
 # END Problem 7
 
 
@@ -317,16 +330,24 @@ class Water(Place):
         """Add an Insect to this place. If the insect is not watersafe, reduce
         its armor to 0."""
         # BEGIN Problem 8
-        "*** YOUR CODE HERE ***"
+        Place.add_insect(self, insect)
+        if not insect.is_watersafe:
+            insect.reduce_armor(insect.armor)
         # END Problem 8
 
 # BEGIN Problem 9
-# The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    food_cost = 6
+    is_watersafe = True
+    implemented = True
+
+    def __init__(self, armor=1):
+        ThrowerAnt.__init__(self, armor)
 # END Problem 9
 
+
 # BEGIN Problem EC
-
-
 class QueenAnt(Ant):  # You should change this line
     # END Problem EC
     """The Queen of the colony. The game is over if a bee enters her place."""
@@ -344,7 +365,7 @@ class QueenAnt(Ant):  # You should change this line
         # END Problem EC
 
     def action(self, gamestate):
-        """A queen ant throws a leaf, but also doubles the damage of ants
+        """A queen ant throws a leaf, but also doubles the damage to ants
         in her tunnel.
 
         Impostor queens do only one thing: reduce their own armor to 0.
@@ -377,7 +398,7 @@ class Bee(Insect):
 
     name = 'Bee'
     damage = 1
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    is_watersafe = True
 
     def sting(self, ant):
         """Attack an ANT, reducing its armor by 1."""
@@ -640,7 +661,7 @@ class NinjaBee(Bee):
 
 
 class Boss(Wasp, Hornet):
-    """The leader of the bees. Combines the high damage of the Wasp along with
+    """The leader of the bees. Combines the high damage to the Wasp along with
     status immunity of Hornets. Damage to the boss is capped up to 8
     damage by a single attack.
     """
@@ -852,7 +873,7 @@ def interactive_strategy(gamestate):
 
 
 def wet_layout(queen, register_place, tunnels=3, length=9, moat_frequency=3):
-    """Register a mix of wet and and dry places."""
+    """Register a mix of wet and dry places."""
     for tunnel in range(tunnels):
         exit = queen
         for step in range(length):
