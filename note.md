@@ -140,3 +140,8 @@ A class serves as a template for its instances.
 
 - Inheritance is best for representing is-a relationships
 - Composition is best for representing has-a relationships
+
+## Bilid Generic Functions Skills
+
+- Type Dispatching
+- Type Coercion
