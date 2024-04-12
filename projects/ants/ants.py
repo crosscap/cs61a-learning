@@ -314,6 +314,7 @@ class HungryAnt(Ant):
 
 # BEGIN Problem 7
 class WallAnt(Ant):
+    """WallAnt do nothing in each tern."""
     name = 'Wall'
     food_cost = 4
     implemented = True
@@ -337,6 +338,8 @@ class Water(Place):
 
 # BEGIN Problem 9
 class ScubaThrower(ThrowerAnt):
+    """ScubaThrower is a watersafe Thrower."""
+
     name = 'Scuba'
     food_cost = 6
     is_watersafe = True
@@ -348,20 +351,24 @@ class ScubaThrower(ThrowerAnt):
 
 
 # BEGIN Problem EC
-class QueenAnt(Ant):  # You should change this line
+class QueenAnt(ScubaThrower):
     # END Problem EC
     """The Queen of the colony. The game is over if a bee enters her place."""
 
     name = 'Queen'
     food_cost = 7
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    have_queen = False
+
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem EC
 
     def __init__(self, armor=1):
         # BEGIN Problem EC
-        "*** YOUR CODE HERE ***"
+        ScubaThrower.__init__(self, armor)
+        self.true_queen = not QueenAnt.have_queen
+        QueenAnt.have_queen = True
+        self.improved_place = []
         # END Problem EC
 
     def action(self, gamestate):
@@ -371,7 +378,17 @@ class QueenAnt(Ant):  # You should change this line
         Impostor queens do only one thing: reduce their own armor to 0.
         """
         # BEGIN Problem EC
-        "*** YOUR CODE HERE ***"
+        if not self.true_queen:
+            self.reduce_armor(self.armor)
+        else:
+            place = self.place.exit
+            while place != None:
+                # print('DEBUG:', place.name)
+                if self.improved_place.count(place) == 0 and place.ant != None:
+                    place.ant.damage *= 2
+                    self.improved_place.append(place)
+                place = place.exit
+            ScubaThrower.action(self, gamestate)
         # END Problem EC
 
     def reduce_armor(self, amount):
@@ -379,9 +396,15 @@ class QueenAnt(Ant):  # You should change this line
         remaining, signal the end of the game.
         """
         # BEGIN Problem EC
-        "*** YOUR CODE HERE ***"
+        if not self.true_queen or self.armor > amount:
+            Ant.reduce_armor(self, self.armor)
+        else:
+            bees_win()
         # END Problem EC
 
+    def remove_from(self, place):
+        if not self.true_queen:
+            Ant.remove_from(self, place)
 
 class AntRemover(Ant):
     """Allows the player to remove ants from the board in the GUI."""

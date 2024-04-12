@@ -3,13 +3,21 @@ class Student:
     """
     >>> callahan = Professor("Callahan")
     >>> elle = Student("Elle", callahan)
+
     >>> elle.visit_office_hours(callahan)
+
     >>> elle.visit_office_hours(Professor("Paulette"))
+
     >>> elle.understanding
+
     >>> [name for name in callahan.students]
+
     >>> x = Student("Vivian", Professor("Stromwell")).name
+
     >>> x
+
     >>> [name for name in callahan.students]
+
     """
     students = 0  # this is a class attribute
 
@@ -42,7 +50,7 @@ class MinList:
     """A list that can only pop the smallest element """
 
     def __init__(self):
-        self.items = pass
+        self.items = "??????"
         self.size = 0
 
     def append(self, item):
@@ -72,7 +80,7 @@ class Email:
     """
 
     def __init__(self, msg, sender_name, recipient_name):
-        pass
+        "??????"
 
 class Server:
     """Each Server has an instance attribute clients, which
