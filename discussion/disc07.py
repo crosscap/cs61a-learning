@@ -94,9 +94,10 @@ class Email:
     """
 
     def __init__(self, msg, sender_name, recipient_name):
-       self.message = msg
-       self.sender_name = sender_name
-       self.recipient_name = recipient_name
+        self.message = msg
+        self.sender_name = sender_name
+        self.recipient_name = recipient_name
+
 
 class Server:
     """Each Server has an instance attribute clients, which
@@ -143,9 +144,10 @@ class Client:
         """Take an email and add it to the inbox of this client. """
         self.inbox.append(email)
 
+
 class Pet():
     def __init__(self, name, owner):
-        self.is_alive = True # It's alive!!!
+        self.is_alive = True  # It's alive!!!
         self.name = name
         self.owner = owner
 
@@ -180,13 +182,12 @@ class Cat(Pet):
         becomes False. If this is called after lives has reached zero, print out
         that the cat has no more lives to lose.
         """
-        if self.left_lives > 1:
-            self.left_lives -= 1
-        elif self.left_lives == 1:
-            self.left_lives = 0
-            self.is_alive = False
-        else:
+        if self.is_alive == False:
             print('The cat has no more lives to lose.')
+        else:
+            self.left_lives -= 1
+            if self.left_lives == 0:
+                self.is_alive = False
 
 
 # 2.2
@@ -198,7 +199,7 @@ def formating_string_example():
     """
 
 
-class NoisyCat(Cat): # Fill me in!
+class NoisyCat(Cat):
     """A Cat that repeats things twice."""
 
     def talk(self):
