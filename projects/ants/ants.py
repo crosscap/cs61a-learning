@@ -103,6 +103,7 @@ class Ant(Insect):
 
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
+    blocks_path = True
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor=1):
@@ -337,6 +338,8 @@ class Water(Place):
         # END Problem 8
 
 # BEGIN Problem 9
+
+
 class ScubaThrower(ThrowerAnt):
     """ScubaThrower is a watersafe Thrower."""
 
@@ -357,7 +360,7 @@ class QueenAnt(ScubaThrower):
 
     name = 'Queen'
     food_cost = 7
-    have_queen = False
+    is_having_queen = False
 
     # BEGIN Problem EC
     implemented = True   # Change to True to view in the GUI
@@ -366,8 +369,8 @@ class QueenAnt(ScubaThrower):
     def __init__(self, armor=1):
         # BEGIN Problem EC
         ScubaThrower.__init__(self, armor)
-        self.true_queen = not QueenAnt.have_queen
-        QueenAnt.have_queen = True
+        self.is_true_queen = not QueenAnt.is_having_queen
+        QueenAnt.is_having_queen = True
         self.improved_place = []
         # END Problem EC
 
@@ -378,13 +381,13 @@ class QueenAnt(ScubaThrower):
         Impostor queens do only one thing: reduce their own armor to 0.
         """
         # BEGIN Problem EC
-        if not self.true_queen:
+        if not self.is_true_queen:
             self.reduce_armor(self.armor)
         else:
             place = self.place.exit
-            while place != None:
+            while place is not None:
                 # print('DEBUG:', place.name)
-                if self.improved_place.count(place) == 0 and place.ant != None:
+                if self.improved_place.count(place) == 0 and place.ant is not None:
                     place.ant.damage *= 2
                     self.improved_place.append(place)
                 place = place.exit
@@ -396,15 +399,18 @@ class QueenAnt(ScubaThrower):
         remaining, signal the end of the game.
         """
         # BEGIN Problem EC
-        if not self.true_queen or self.armor > amount:
+        if not self.is_true_queen:
             Ant.reduce_armor(self, self.armor)
+        elif self.armor > amount:
+            Ant.reduce_armor(self, amount)
         else:
             bees_win()
         # END Problem EC
 
     def remove_from(self, place):
-        if not self.true_queen:
+        if not self.is_true_queen:
             Ant.remove_from(self, place)
+
 
 class AntRemover(Ant):
     """Allows the player to remove ants from the board in the GUI."""
@@ -436,7 +442,7 @@ class Bee(Insect):
         """Return True if this Bee cannot advance to the next Place."""
         # Special handling for NinjaAnt
         # BEGIN Problem Optional
-        return self.place.ant is not None
+        return self.place.ant is not None and self.place.ant.blocks_path is True
         # END Problem Optional
 
     def action(self, gamestate):
@@ -476,14 +482,19 @@ class NinjaAnt(Ant):
     name = 'Ninja'
     damage = 1
     food_cost = 5
-    # OVERRIDE CLASS ATTRIBUTES HERE
+    blocks_path = False
+
     # BEGIN Problem Optional 1
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem Optional 1
 
     def action(self, gamestate):
         # BEGIN Problem Optional 1
-        "*** YOUR CODE HERE ***"
+        place_bees = self.place.bees
+        copy_bees = place_bees[:]
+        for bee in copy_bees:
+            Insect.reduce_armor(place_bees[place_bees.index(bee)], self.damage)
+        Ant.reduce_armor(self, self.damage)
         # END Problem Optional 1
 
 
