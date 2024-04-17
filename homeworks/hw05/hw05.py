@@ -35,7 +35,37 @@ class VendingMachine:
     >>> w.vend()
     'Here is your soda.'
     """
-    "*** YOUR CODE HERE ***"
+
+    def __init__(self, product_name: str, product_price: int):
+        self.prod_name = product_name
+        self.prod_price = product_price
+        self.balance = 0
+        self.stock = 0
+
+    def vend(self):
+        if self.stock == 0:
+            return 'Inventory empty. Restocking required.'
+        elif self.balance < self.prod_price:
+            return 'You must add ${} more funds.'.format(self.prod_price - self.balance)
+        else:
+            self.stock -= 1
+            last_balance = self.balance - self.prod_price
+            self.balance = 0
+            if last_balance == 0:
+                return 'Here is your {}.'.format(self.prod_name)
+            else:
+                return 'Here is your {0} and ${1} change.'.format(self.prod_name, last_balance)
+
+    def add_funds(self, funds: int):
+        if self.stock == 0:
+            return 'Inventory empty. Restocking required. Here is your ${}.'.format(funds)
+        else:
+            self.balance += funds
+            return 'Current balance: ${}'.format(self.balance)
+
+    def restock(self, add_stock: int):
+        self.stock += add_stock
+        return 'Current {0} stock: {1}'.format(self.prod_name, self.stock)
 
 
 class Mint:
@@ -73,20 +103,25 @@ class Mint:
         self.update()
 
     def create(self, kind):
-        "*** YOUR CODE HERE ***"
+        return kind(self.year)
 
     def update(self):
-        "*** YOUR CODE HERE ***"
+        self.year = Mint.current_year
+
 
 class Coin:
     def __init__(self, year):
         self.year = year
 
     def worth(self):
-        "*** YOUR CODE HERE ***"
+        exra_worth = (Mint.current_year - self.year -
+                      50) if Mint.current_year - self.year > 50 else 0
+        return self.cents + exra_worth
+
 
 class Nickel(Coin):
     cents = 5
+
 
 class Dime(Coin):
     cents = 10
@@ -107,7 +142,13 @@ def store_digits(n):
     >>> cleaned = re.sub(r"#.*\\n", '', re.sub(r'"{3}[\s\S]*?"{3}', '', inspect.getsource(store_digits)))
     >>> print("Do not use str or reversed!") if any([r in cleaned for r in ["str", "reversed"]]) else None
     """
-    "*** YOUR CODE HERE ***"
+    if n == 0:
+        return Link.empty
+    else:
+        magnitude = 1
+        while n // magnitude > 9:
+            magnitude *= 10
+        return Link(n//magnitude, store_digits(n % magnitude))
 
 
 def is_bst(t):
@@ -135,7 +176,72 @@ def is_bst(t):
     >>> is_bst(t7)
     False
     """
-    "*** YOUR CODE HERE ***"
+    length = len(t.branches)
+    if length > 2:
+        return False
+    elif length == 0:
+        return True
+    else:
+        bunches_is_bst = all([is_bst(b) for b in t.branches])
+        if length == 1:
+            if t.branches[0].label <= t.label:
+                return bunches_is_bst and bst_max(t.branches[0]) <= t.label
+            else:
+                return bunches_is_bst and bst_min(t.branches[0]) > t.label
+        else:
+            return bunches_is_bst and bst_max(t.branches[0]) <= t.label and bst_min(t.branches[1]) > t.label
+
+
+def bst_min(t):
+    """Return the min of the labels in a Tree.
+
+    Args:
+        t (Tree): A Tree.
+
+    Returns:
+        t.label:
+
+    >>> bst_min(Tree(6, [Tree(2, [Tree(4), Tree(1)]), Tree(7, [Tree(7), Tree(8)])]))
+    1
+    >>> bst_min(Tree(2, [Tree(4), Tree(1)]))
+    1
+    >>> bst_min(Tree(7, [Tree(7), Tree(8)]))
+    7
+    >>> bst_min(Tree(2, [Tree(4), Tree(1)]))
+    1
+    >>> bst_min(Tree(1, [Tree(5)]))
+    1
+    """
+    if t.branches == []:
+        return t.label
+    else:
+        return min([t.label] + [bst_min(b) for b in t.branches])
+
+
+def bst_max(t):
+    """Return the max of the labels in a Tree.
+
+    Args:
+        t (Tree): A Tree.
+
+    Returns:
+        t.label:
+
+    >>> bst_max(Tree(6, [Tree(2, [Tree(4), Tree(1)]), Tree(7, [Tree(7), Tree(8)])]))
+    8
+    >>> bst_max(Tree(2, [Tree(4), Tree(1)]))
+    4
+    >>> bst_max(Tree(7, [Tree(7), Tree(8)]))
+    8
+    >>> bst_max(Tree(2, [Tree(4), Tree(1)]))
+    4
+    >>> bst_max(Tree(1, [Tree(5)]))
+    5
+    """
+    if t.branches == []:
+        return t.label
+    else:
+        return max([t.label] + [bst_max(b) for b in t.branches])
 
 
 def preorder(t):
@@ -148,7 +254,10 @@ def preorder(t):
     >>> preorder(Tree(2, [Tree(4, [Tree(6)])]))
     [2, 4, 6]
     """
-    "*** YOUR CODE HERE ***"
+    node_list = []
+    for b in t.branches:
+        node_list.extend(preorder(b))
+    return [t.label] + node_list
 
 
 def path_yielder(t, value):
@@ -186,12 +295,11 @@ def path_yielder(t, value):
     [[0, 2], [0, 2, 1, 2]]
     """
 
-    "*** YOUR CODE HERE ***"
-
-    for _______________ in _________________:
-        for _______________ in _________________:
-
-            "*** YOUR CODE HERE ***"
+    if t.label == value:
+        yield [t.label]
+    for b in t.branches:
+        for p in path_yielder(b, value):
+            yield [t.label] + p
 
 
 class Link:
@@ -246,6 +354,7 @@ class Tree:
     >>> t.branches[1].is_leaf()
     True
     """
+
     def __init__(self, label, branches=[]):
         for b in branches:
             assert isinstance(b, Tree)
@@ -309,4 +418,3 @@ class Tree:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
         return print_tree(self).rstrip()
-
