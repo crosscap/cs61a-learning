@@ -20,6 +20,7 @@
         "random": "c",
         "stdlib.h": "c",
         "string": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "graph.h": "c"
     }
 }
