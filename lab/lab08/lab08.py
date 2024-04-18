@@ -7,11 +7,19 @@ def convert_link(link):
     >>> convert_link(Link.empty)
     []
     """
-    # print('DEBUG:', link)
-    if link is Link.empty:
-        return []
-    else:
-        return [link.first] + convert_link(link.rest)
+
+    # # Recursive Version
+    # if link is Link.empty:
+    #     return []
+    # else:
+    #     return [link.first] + convert_link(link.rest)
+
+    # Iterator Version
+    ret_list = []
+    while link is not Link.empty:
+        ret_list.append(link.first)
+        link = link.rest
+    return  ret_list
 
 
 def every_other(s):
@@ -31,67 +39,96 @@ def every_other(s):
     >>> singleton
     Link(4)
     """
-    "*** YOUR CODE HERE ***"
+    if not (s is Link.empty or s.rest is Link.empty):
+        s.rest = s.rest.rest
+        every_other(s.rest)
 
 
-# def cumulative_mul(t):
-#     """Mutates t so that each node's label becomes the product of all labels in
-#     the corresponding subtree rooted at t.
+def cumulative_mul(t):
+    """Mutates t so that each node's label becomes the product of all labels in
+    the corresponding subtree rooted at t.
 
-#     >>> t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
-#     >>> cumulative_mul(t)
-#     >>> t
-#     Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
-#     """
-#     "*** YOUR CODE HERE ***"
-
-
-# def has_cycle(link):
-#     """Return whether link contains a cycle.
-
-#     >>> s = Link(1, Link(2, Link(3)))
-#     >>> s.rest.rest.rest = s
-#     >>> has_cycle(s)
-#     True
-#     >>> t = Link(1, Link(2, Link(3)))
-#     >>> has_cycle(t)
-#     False
-#     >>> u = Link(2, Link(2, Link(2)))
-#     >>> has_cycle(u)
-#     False
-#     """
-#     "*** YOUR CODE HERE ***"
+    >>> t = Tree(1, [Tree(3, [Tree(5)]), Tree(7)])
+    >>> cumulative_mul(t)
+    >>> t
+    Tree(105, [Tree(15, [Tree(5)]), Tree(7)])
+    """
+    for b in t.branches:
+        cumulative_mul(b)
+    for b in t.branches:
+        t.label *= b.label
 
 
-# def has_cycle_constant(link):
-#     """Return whether link contains a cycle.
+def has_cycle(link):
+    """Return whether link contains a cycle.
 
-#     >>> s = Link(1, Link(2, Link(3)))
-#     >>> s.rest.rest.rest = s
-#     >>> has_cycle_constant(s)
-#     True
-#     >>> t = Link(1, Link(2, Link(3)))
-#     >>> has_cycle_constant(t)
-#     False
-#     """
-#     "*** YOUR CODE HERE ***"
+    >>> s = Link(1, Link(2, Link(3)))
+    >>> s.rest.rest.rest = s
+    >>> has_cycle(s)
+    True
+    >>> t = Link(1, Link(2, Link(3)))
+    >>> has_cycle(t)
+    False
+    >>> u = Link(2, Link(2, Link(2)))
+    >>> has_cycle(u)
+    False
+    """
+
+    visited_link_list = []
+    while link is not Link.empty:
+        for l in visited_link_list:
+            if l is link:
+                return True
+        visited_link_list.append(link)
+        link = link.rest
+    return False
 
 
-# def reverse_other(t):
-#     """Mutates the tree such that nodes on every other (odd-depth) level
-#     have the labels of their branches all reversed.
+def has_cycle_constant(link):
+    """Return whether link contains a cycle.
 
-#     >>> t = Tree(1, [Tree(2), Tree(3), Tree(4)])
-#     >>> reverse_other(t)
-#     >>> t
-#     Tree(1, [Tree(4), Tree(3), Tree(2)])
-#     >>> t = Tree(1, [Tree(2, [Tree(3, [Tree(4), Tree(5)]), Tree(6, [Tree(7)])]), Tree(8)])
-#     >>> reverse_other(t)
-#     >>> t
-#     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
-#     """
-#     "*** YOUR CODE HERE ***"
+    >>> s = Link(1, Link(2, Link(3)))
+    >>> s.rest.rest.rest = s
+    >>> has_cycle_constant(s)
+    True
+    >>> t = Link(1, Link(2, Link(3)))
+    >>> has_cycle_constant(t)
+    False
+    """
+    fast_link = link.rest
+    while link is not Link.empty and fast_link is not Link.empty:
+        if link is fast_link:
+            return True
+        if fast_link.rest is not Link.empty:
+            fast_link = fast_link.rest.rest
+        else:
+            return False
+        link = link.rest
+    return False
 
+
+def reverse_other(t):
+    """Mutates the tree such that nodes on every other (odd-depth) level
+    have the labels of their branches all reversed.
+
+    >>> t = Tree(1, [Tree(2), Tree(3), Tree(4)])
+    >>> reverse_other(t)
+    >>> t
+    Tree(1, [Tree(4), Tree(3), Tree(2)])
+    >>> t = Tree(1, [Tree(2, [Tree(3, [Tree(4), Tree(5)]), Tree(6, [Tree(7)])]), Tree(8)])
+    >>> reverse_other(t)
+    >>> t
+    Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
+    """
+
+    i, j = 0, len(t.branches) - 1
+    while i < j:
+        t.branches[i].label, t.branches[j].label = t.branches[j].label, t.branches[i].label
+        i += 1
+        j -= 1
+    for b in t.branches:
+        for next_b in b.branches:
+            reverse_other(next_b)
 
 class Link:
     """A linked list.
