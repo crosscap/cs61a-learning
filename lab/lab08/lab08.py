@@ -19,7 +19,7 @@ def convert_link(link):
     while link is not Link.empty:
         ret_list.append(link.first)
         link = link.rest
-    return  ret_list
+    return ret_list
 
 
 def every_other(s):
@@ -129,6 +129,7 @@ def reverse_other(t):
     for b in t.branches:
         for next_b in b.branches:
             reverse_other(next_b)
+
 
 class Link:
     """A linked list.

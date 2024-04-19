@@ -114,9 +114,9 @@ class Coin:
         self.year = year
 
     def worth(self):
-        exra_worth = (Mint.current_year - self.year -
+        extra_worth = (Mint.current_year - self.year -
                       50) if Mint.current_year - self.year > 50 else 0
-        return self.cents + exra_worth
+        return self.cents + extra_worth
 
 
 class Nickel(Coin):
@@ -189,7 +189,7 @@ def is_bst(t):
             else:
                 return bunches_is_bst and bst_min(t.branches[0]) > t.label
         else:
-            return bunches_is_bst and bst_max(t.branches[0]) <= t.label and bst_min(t.branches[1]) > t.label
+            return bunches_is_bst and bst_max(t.branches[0]) <= t.label < bst_min(t.branches[1])
 
 
 def bst_min(t):

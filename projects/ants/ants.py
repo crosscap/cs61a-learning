@@ -604,7 +604,7 @@ def make_slow(action, bee):
     action -- An action method of some Bee
     """
     # BEGIN Problem Optional 4
-    "*** YOUR CODE HERE ***"
+
     # END Problem Optional 4
 
 
@@ -614,14 +614,15 @@ def make_scare(action, bee):
     action -- An action method of some Bee
     """
     # BEGIN Problem Optional 4
-    "*** YOUR CODE HERE ***"
+
     # END Problem Optional 4
 
 
 def apply_status(status, bee, length):
     """Apply a status to a BEE that lasts for LENGTH turns."""
     # BEGIN Problem Optional 4
-    "*** YOUR CODE HERE ***"
+    old_action, bee.action = bee.action, status(bee.action, bee)
+
     # END Problem Optional 4
 
 
@@ -631,8 +632,7 @@ class SlowThrower(ThrowerAnt):
     name = 'Slow'
     food_cost = 4
     # BEGIN Problem Optional 4
-    implemented = False  # Change to True to view in the GUI
-
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
@@ -646,13 +646,13 @@ class ScaryThrower(ThrowerAnt):
     name = 'Scary'
     food_cost = 6
     # BEGIN Problem Optional 4
-    implemented = False  # Change to True to view in the GUI
-
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
         # BEGIN Problem Optional 4
-        "*** YOUR CODE HERE ***"
+        if target:
+            apply_status(make_scare, target, 2)
         # END Problem Optional 4
 
 
@@ -663,8 +663,7 @@ class LaserAnt(ThrowerAnt):
     food_cost = 10
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem Optional 5
-    implemented = False  # Change to True to view in the GUI
-
+    implemented = True  # Change to True to view in the GUI
     # END Problem Optional 5
 
     def __init__(self, armor=1):
@@ -673,18 +672,29 @@ class LaserAnt(ThrowerAnt):
 
     def insects_in_front(self, beehive):
         # BEGIN Problem Optional 5
-        return {}
+        ret_dict = {}
+        place = self.place
+        distance = 0
+        while place is not beehive:
+            if place.ant is not None and place.ant is not self:
+                ret_dict[place.ant] = distance
+            for b in place.bees:
+                ret_dict[b] = distance
+            place = place.entrance
+            distance += 1
+        return ret_dict
         # END Problem Optional 5
 
     def calculate_damage(self, distance):
         # BEGIN Problem Optional 5
-        return 0
+        return max(0, 2 - distance * 0.2 - self.insects_shot * 0.05)
         # END Problem Optional 5
 
     def action(self, gamestate):
         insects_and_distances = self.insects_in_front(gamestate.beehive)
         for insect, distance in insects_and_distances.items():
             damage = self.calculate_damage(distance)
+            print('DEBUG:', insect, damage, insect.place.name)
             insect.reduce_armor(damage)
             if damage:
                 self.insects_shot += 1
@@ -749,16 +759,24 @@ class Hive(Place):
     assault_plan -- An AssaultPlan; when & where bees enter the colony.
     """
 
+    # def __init__(self, assault_plan):
+    #     self.name = 'Hive'
+    #     self.assault_plan = assault_plan
+    #     self.bees = []
+    #     for bee in assault_plan.all_bees:
+    #         self.add_insect(bee)
+    #     # The following attributes are always None for a Hive
+    #     self.entrance = None
+    #     self.ant = None
+    #     self.exit = None
+
+    # my init function using Place.__init__()
     def __init__(self, assault_plan):
-        self.name = 'Hive'
+        Place.__init__(self, 'Hive')
         self.assault_plan = assault_plan
-        self.bees = []
         for bee in assault_plan.all_bees:
             self.add_insect(bee)
         # The following attributes are always None for a Hive
-        self.entrance = None
-        self.ant = None
-        self.exit = None
 
     def strategy(self, gamestate):
         exits = [p for p in gamestate.places.values() if p.entrance is self]
