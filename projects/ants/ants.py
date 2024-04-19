@@ -105,7 +105,6 @@ class Ant(Insect):
     implemented = False  # Only implemented Ant classes should be instantiated
     food_cost = 0
     blocks_path = True
-
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor=1):
@@ -181,7 +180,6 @@ class ThrowerAnt(Ant):
         This method returns None if there is no such Bee (or none in range).
         """
         # BEGIN Problem 3 and 4
-
         # Iter Version
         checking_place = self.place
         how_far = 0
@@ -262,7 +260,6 @@ class FireAnt(Ant):
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
     implemented = True  # Change to True to view in the GUI
-
     # END Problem 5
 
     def __init__(self, armor=3):
@@ -299,7 +296,6 @@ class HungryAnt(Ant):
     time_to_digest = 3
     # BEGIN Problem 6
     implemented = True  # Change to True to view in the GUI
-
     # END Problem 6
 
     def __init__(self, armor=1):
@@ -333,8 +329,6 @@ class WallAnt(Ant):
 
     def __init__(self, armor=4):
         Ant.__init__(self, armor)
-
-
 # END Problem 7
 
 
@@ -352,8 +346,6 @@ class Water(Place):
 
 
 # BEGIN Problem 9
-
-
 class ScubaThrower(ThrowerAnt):
     """ScubaThrower is a watersafe Thrower."""
 
@@ -364,8 +356,6 @@ class ScubaThrower(ThrowerAnt):
 
     def __init__(self, armor=1):
         ThrowerAnt.__init__(self, armor)
-
-
 # END Problem 9
 
 
@@ -380,7 +370,6 @@ class QueenAnt(ScubaThrower):
 
     # BEGIN Problem EC
     implemented = True  # Change to True to view in the GUI
-
     # END Problem EC
 
     def __init__(self, armor=1):
@@ -504,7 +493,6 @@ class NinjaAnt(Ant):
 
     # BEGIN Problem Optional 1
     implemented = True  # Change to True to view in the GUI
-
     # END Problem Optional 1
 
     def action(self, gamestate):
@@ -577,7 +565,6 @@ class TankAnt(ContainerAnt):
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem Optional 3
     implemented = True  # Change to True to view in the GUI
-
     # END Problem Optional 3
 
     def __init__(self, armor=2):
@@ -604,7 +591,7 @@ def make_slow(action, bee):
     action -- An action method of some Bee
     """
     # BEGIN Problem Optional 4
-
+    "*** Your Code Here ***"
     # END Problem Optional 4
 
 
@@ -614,15 +601,14 @@ def make_scare(action, bee):
     action -- An action method of some Bee
     """
     # BEGIN Problem Optional 4
-
+    "*** Your Code Here ***"
     # END Problem Optional 4
 
 
 def apply_status(status, bee, length):
     """Apply a status to a BEE that lasts for LENGTH turns."""
     # BEGIN Problem Optional 4
-    old_action, bee.action = bee.action, status(bee.action, bee)
-
+    "*** Your Code Here ***"
     # END Problem Optional 4
 
 
@@ -632,7 +618,7 @@ class SlowThrower(ThrowerAnt):
     name = 'Slow'
     food_cost = 4
     # BEGIN Problem Optional 4
-    implemented = True  # Change to True to view in the GUI
+    implemented = False  # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
@@ -646,7 +632,7 @@ class ScaryThrower(ThrowerAnt):
     name = 'Scary'
     food_cost = 6
     # BEGIN Problem Optional 4
-    implemented = True  # Change to True to view in the GUI
+    implemented = False  # Change to True to view in the GUI
     # END Problem Optional 4
 
     def throw_at(self, target):
