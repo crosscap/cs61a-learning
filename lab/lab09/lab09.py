@@ -220,17 +220,29 @@ def make_advanced_counter_maker():
     >>> tom_counter('global-count')
     1
     """
-    ________________
+    global_count = 0
 
-    def ____________(__________):
-        ________________
+    def advanced_counter_maker():
+        self_count = 0
 
-        def ____________(__________):
-            ________________
-            "*** YOUR CODE HERE ***"
-            # as many lines as you want
-        ________________
-    ________________
+        def advanced_counter(str):
+            nonlocal global_count
+            nonlocal self_count
+
+            if str == 'count':
+                self_count += 1
+                print(self_count)
+            elif str == 'reset':
+                self_count = 0
+            elif str == 'global-count':
+                global_count += 1
+                print(global_count)
+            elif str == 'global-reset':
+                global_count = 0
+            else:
+                print('Input should be a right string!')
+        return advanced_counter
+    return advanced_counter_maker
 
 
 def trade(first, second):
@@ -262,9 +274,9 @@ def trade(first, second):
     """
     m, n = 1, 1
 
-    def equal_prefix(): return ______________________
-    while _______________________________:
-        if __________________:
+    def equal_prefix(): return sum(first[:m]) == sum(second[:n])
+    while m < len(first) and n < len(second) and not equal_prefix():
+        if sum(first[:m]) < sum(second[:n]):
             m += 1
         else:
             n += 1
@@ -302,11 +314,11 @@ def shuffle(cards):
     ['A♡', 'A♢', 'A♤', 'A♧', '2♡', '2♢', '2♤', '2♧', '3♡', '3♢', '3♤', '3♧']
     """
     assert len(cards) % 2 == 0, 'len(cards) must be even'
-    half = _______________
+    half = len(cards) // 2
     shuffled = []
-    for i in _____________:
-        _________________
-        _________________
+    for i in range(half):
+        shuffled.append(list(cards).pop(i))
+        shuffled.append(list(cards).pop(i+half))
     return shuffled
 
 
