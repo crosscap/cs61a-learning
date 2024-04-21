@@ -7,7 +7,8 @@ def insert_into_all(item, nested_list):
     >>> insert_into_all(0, nl)
     [[0], [0, 1, 2], [0, 3]]
     """
-    return ______________________________
+    return [([item] + list) for list in nested_list]
+
 
 def subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
@@ -19,13 +20,14 @@ def subseqs(s):
     >>> subseqs([])
     [[]]
     """
-    if ________________:
-        ________________
+    if not s:
+        return [[]]
     else:
-        ________________
-        ________________
+        ret_nest_list = subseqs(s[1:])
+        return ret_nest_list + insert_into_all(s[0], ret_nest_list)
 
 
+# From Solution
 def inc_subseqs(s):
     """Assuming that S is a list, return a nested list of all subsequences
     of S (a list of lists) for which the elements of the subsequence
@@ -42,24 +44,27 @@ def inc_subseqs(s):
     """
     def subseq_helper(s, prev):
         if not s:
-            return ____________________
+            return [[]]
         elif s[0] < prev:
-            return ____________________
+            # print('DEBUG:','1', s[0], prev)
+            return subseq_helper(s[1:], prev)
         else:
-            a = ______________________
-            b = ______________________
-            return insert_into_all(________, ______________) + ________________
-    return subseq_helper(____, ____)
+            a = subseq_helper(s[1:], s[0])
+            b = subseq_helper(s[1:], prev)
+            # print('DEBUG:', '2', s[0], a, prev, b, insert_into_all(s[0], a) + b)
+            return insert_into_all(s[0], a) + b
+    return subseq_helper(s, 0)
 
 
+# From Solution
 def num_trees(n):
     """How many full binary trees have exactly n leaves? E.g.,
 
     1   2        3       3    ...
     *   *        *       *
-       / \      / \     / \
+       / \\     / \\    / \\
       *   *    *   *   *   *
-              / \         / \
+              / \\        / \\
              *   *       *   *
 
     >>> num_trees(1)
@@ -68,15 +73,19 @@ def num_trees(n):
     1
     >>> num_trees(3)
     2
+    >>> num_trees(4)
+    5
+    >>> num_trees(5)
+    14
     >>> num_trees(8)
     429
-
     """
-    if ____________________:
-        return _______________
-    return _______________
+    if n == 1:
+        return 1
+    return sum(num_trees(k) * num_trees(n - k) for k in range(1, n))
 
 
+# TOO DIFFCULT!
 def make_generators_generator(g):
     """Generates all the "sub"-generators of the generator returned by
     the generator function g.
@@ -112,21 +121,21 @@ def make_generators_generator(g):
     9
     """
     def gen(i):
-        for ___________ in ___________:
-            if _________________________:
-                _________________________
-            _______________________
-            _______________________
-    __________________________
-    for _________ in __________________:
-        ______________________________
-        ______________________________
-
+        for index in range(i):
+            if ______________:
+                ______________
+            ______________
+            ______________
+    ______________
+    for ______________ in ______________:
+        ______________
+        ______________
 
 class Button:
     """
     Represents a single button
     """
+
     def __init__(self, pos, key):
         """
         Creates a button
@@ -134,6 +143,7 @@ class Button:
         self.pos = pos
         self.key = key
         self.times_pressed = 0
+
 
 class Keyboard:
     """A Keyboard takes in an arbitrary amount of buttons, and has a
@@ -159,26 +169,26 @@ class Keyboard:
     """
 
     def __init__(self, *args):
-        ________________
-        for _________ in ________________:
-            ________________
+        self.buttons = {}
+        for arg in args:
+            self.buttons[arg.pos] = arg
 
     def press(self, info):
         """Takes in a position of the button pressed, and
         returns that button's output"""
-        if ____________________:
-            ________________
-            ________________
-            ________________
-        ________________
+        if info in self.buttons.keys():
+            ret_char = self.buttons[info].key
+            self.buttons[info].times_pressed += 1
+            return ret_char
+        return ''
 
     def typing(self, typing_input):
         """Takes in a list of positions of buttons pressed, and
         returns the total output"""
-        ________________
-        for ________ in ____________________:
-            ________________
-        ________________
+        ret_str = ''
+        for input in typing_input:
+            ret_str += self.press(input)
+        return ret_str
 
 
 def make_advanced_counter_maker():
@@ -211,8 +221,10 @@ def make_advanced_counter_maker():
     1
     """
     ________________
+
     def ____________(__________):
         ________________
+
         def ____________(__________):
             ________________
             "*** YOUR CODE HERE ***"
@@ -250,7 +262,7 @@ def trade(first, second):
     """
     m, n = 1, 1
 
-    equal_prefix = lambda: ______________________
+    def equal_prefix(): return ______________________
     while _______________________________:
         if __________________:
             m += 1
@@ -269,6 +281,7 @@ def card(n):
     assert type(n) == int and n > 0 and n <= 13, "Bad card n"
     specials = {1: 'A', 11: 'J', 12: 'Q', 13: 'K'}
     return specials.get(n, str(n))
+
 
 def shuffle(cards):
     """Return a shuffled list that interleaves the two halves of cards.
@@ -320,7 +333,6 @@ def insert(link, value, index):
         ____________________
     else:
         ____________________
-
 
 
 def deep_len(lnk):
@@ -444,6 +456,7 @@ class Tree:
     >>> t.branches[1].is_leaf()
     True
     """
+
     def __init__(self, label, branches=[]):
         for b in branches:
             assert isinstance(b, Tree)
@@ -507,4 +520,3 @@ class Tree:
                 tree_str += print_tree(b, indent + 1)
             return tree_str
         return print_tree(self).rstrip()
-
