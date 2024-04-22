@@ -186,8 +186,8 @@ class Keyboard:
         """Takes in a list of positions of buttons pressed, and
         returns the total output"""
         ret_str = ''
-        for input in typing_input:
-            ret_str += self.press(input)
+        for typing in typing_input:
+            ret_str += self.press(typing)
         return ret_str
 
 
@@ -225,19 +225,19 @@ def make_advanced_counter_maker():
     def advanced_counter_maker():
         self_count = 0
 
-        def advanced_counter(str):
+        def advanced_counter(command):
             nonlocal global_count
             nonlocal self_count
 
-            if str == 'count':
+            if command == 'count':
                 self_count += 1
                 print(self_count)
-            elif str == 'reset':
+            elif command == 'reset':
                 self_count = 0
-            elif str == 'global-count':
+            elif command == 'global-count':
                 global_count += 1
                 print(global_count)
-            elif str == 'global-reset':
+            elif command == 'global-reset':
                 global_count = 0
             else:
                 print('Input should be a right string!')
@@ -337,15 +337,14 @@ def insert(link, value, index):
     >>> insert(link, 4, 5)
     IndexError
     """
-    if ____________________:
-        ____________________
-        ____________________
-        ____________________
-    elif ____________________:
-        ____________________
+    if index == 0:
+        temp = link.first
+        link.first = value
+        link.rest = Link(temp, link.rest)
+    elif link.rest is not Link.empty:
+        insert(link.rest, value, index-1)
     else:
-        ____________________
-
+        raise IndexError
 
 def deep_len(lnk):
     """ Returns the deep length of a possibly deep linked list.
@@ -361,12 +360,12 @@ def deep_len(lnk):
     >>> deep_len(levels)
     5
     """
-    if ______________:
+    if lnk is Link.empty:
         return 0
-    elif ______________:
+    elif not isinstance(lnk, Link):
         return 1
     else:
-        return _________________________
+        return deep_len(lnk.first) + deep_len(lnk.rest)
 
 
 def make_to_string(front, mid, back, empty_repr):
@@ -385,10 +384,10 @@ def make_to_string(front, mid, back, empty_repr):
     '()'
     """
     def printer(lnk):
-        if ______________:
-            return _________________________
+        if lnk is Link.empty:
+            return empty_repr
         else:
-            return _________________________
+            return front + str(lnk.first) + mid + printer(lnk.rest) + back
     return printer
 
 
@@ -409,11 +408,11 @@ def prune_small(t, n):
     >>> t3
     Tree(6, [Tree(1), Tree(3, [Tree(1), Tree(2)])])
     """
-    while ___________________________:
-        largest = max(_______________, key=____________________)
-        _________________________
-    for __ in _____________:
-        ___________________
+    while len(t.branches) > n:
+        largest = max(t.branches, key=lambda x: x.label)
+        t.branches.remove(largest)
+    for b in t.branches:
+        prune_small(b, n)
 
 
 class Link:
