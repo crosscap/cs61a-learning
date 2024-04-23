@@ -1,4 +1,4 @@
-from trees import *
+from discussion.ucb_struct import *
 
 
 # 1.1
