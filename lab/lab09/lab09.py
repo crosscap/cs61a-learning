@@ -131,6 +131,7 @@ def make_generators_generator(g):
         ______________
         ______________
 
+
 class Button:
     """
     Represents a single button
@@ -345,6 +346,7 @@ def insert(link, value, index):
         insert(link.rest, value, index-1)
     else:
         raise IndexError
+
 
 def deep_len(lnk):
     """ Returns the deep length of a possibly deep linked list.
