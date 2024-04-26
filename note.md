@@ -145,3 +145,14 @@ A class serves as a template for its instances.
 
 - Type Dispatching
 - Type Coercion
+
+## Scheme Expressions
+
+Scheme programs consist of expressions, which can be:
+
+- Primitive expressions
+- Combinations
+
+Numbers are self-evaluating; symbols are bound to values
+
+Call expressions include an operator and 0 or more operands in parentheses

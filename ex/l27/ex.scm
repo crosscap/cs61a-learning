@@ -1,0 +1,7 @@
+(define pi 3.14)
+(* pi 2)
+(define (abs x)
+  (if (< x 0)
+      (- x)
+      x))
+(abs -3)
