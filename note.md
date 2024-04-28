@@ -156,3 +156,7 @@ Scheme programs consist of expressions, which can be:
 Numbers are self-evaluating; symbols are bound to values
 
 Call expressions include an operator and 0 or more operands in parentheses
+
+## Multiple try statements
+
+Control jumps to the except suite of the most recent try statement that handles that type of exception

@@ -27,4 +27,3 @@
     ((odd? y) (* x (pow x (- y 1))))
     (else (square (pow x (/ y 2)))))
 )
-
