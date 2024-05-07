@@ -76,8 +76,12 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 7
-    # replace this with lines of your own code
-    return scheme_eval(expressions.first, env)
+    doing_expr = expressions
+    ret_val = None
+    while doing_expr is not nil:
+        ret_val = scheme_eval(doing_expr.first, env)
+        doing_expr = doing_expr.rest
+    return ret_val
     # END PROBLEM 7
 
 
@@ -239,7 +243,7 @@ def add_builtins(frame, funcs_and_names):
 # initial identifying symbol (if, lambda, quote, ...). Its second argument is
 # the environment in which the form is to be evaluated.
 
-def do_define_form(expressions, env: Frame):
+def do_define_form(expressions: Pair, env: Frame):
     """Evaluate a define form.
     >>> env = create_global_frame()
     >>> do_define_form(read_line("(x 2)"), env)
@@ -269,7 +273,14 @@ def do_define_form(expressions, env: Frame):
         # END PROBLEM 5
     elif isinstance(target, Pair) and scheme_symbolp(target.first):
         # BEGIN PROBLEM 9
-        "*** YOUR CODE HERE ***"
+        name = target.first
+        symbol = target.rest
+        body = expressions.rest
+        lambda_expr = Pair(symbol, Pair(body, nil))
+        print('DEBUG:', symbol, body, lambda_expr)
+        lambda_func = do_lambda_form(lambda_expr, env)
+        env.define(name, lambda_func)
+        return name
         # END PROBLEM 9
     else:
         bad_target = target.first if isinstance(target, Pair) else target
@@ -313,7 +324,8 @@ def do_lambda_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    body = expressions.rest
+    return LambdaProcedure(formals, body, env)
     # END PROBLEM 8
 
 
