@@ -133,7 +133,14 @@ class Frame(object):
         if len(formals) != len(vals):
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 10
-        "*** YOUR CODE HERE ***"
+        child_frame = Frame(self)
+        f_item = formals
+        v_item = vals
+        while f_item is not nil:
+            child_frame.define(f_item.first, v_item.first)
+            f_item = f_item.rest
+            v_item = v_item.rest
+        return child_frame
         # END PROBLEM 10
 
 
@@ -206,7 +213,7 @@ class LambdaProcedure(Procedure):
         """Make a frame that binds my formal parameters to ARGS, a Scheme list
         of values, for a lexically-scoped call evaluated in environment ENV."""
         # BEGIN PROBLEM 11
-        "*** YOUR CODE HERE ***"
+        return self.env.make_child_frame(self.formals, args)
         # END PROBLEM 11
 
     def __str__(self):
