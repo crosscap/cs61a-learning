@@ -276,8 +276,7 @@ def do_define_form(expressions: Pair, env: Frame):
         name = target.first
         symbol = target.rest
         body = expressions.rest
-        lambda_expr = Pair(symbol, Pair(body, nil))
-        print('DEBUG:', symbol, body, lambda_expr)
+        lambda_expr = Pair(symbol, body)
         lambda_func = do_lambda_form(lambda_expr, env)
         env.define(name, lambda_func)
         return name
