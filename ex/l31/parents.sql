@@ -1,3 +1,5 @@
+.open --new
+
 -- Parents
 create table parents as
   select "abraham" as parent, "barack" as child union

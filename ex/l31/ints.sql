@@ -1,3 +1,5 @@
+.open --new
+
 -- Ints
 create table ints as
   select "zero" as word, 0 as one, 0 as two, 0 as four, 0 as eight union

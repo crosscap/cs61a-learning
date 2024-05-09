@@ -1,3 +1,5 @@
+.open --new
+
 -- Arithmetic
 
 create table lift as
