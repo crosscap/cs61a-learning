@@ -45,7 +45,15 @@
 
 (define (nondecreaselist s)
     ; BEGIN PROBLEM 17
-    'replace-this-line
+    (define (append lst item)
+      (if (eq? lst nil)
+          (cons item nil)
+          (cons (car lst) (append (cdr lst) item))))
+    (define (helper s res lst last)
+      (cond ((eq? s nil) (append res lst))
+            ((>= (car s) last) (helper (cdr s) res (append lst (car s)) (car s)))
+            (else (helper (cdr s) (append res lst) (cons (car s) nil) (car s)))))
+    (helper s nil nil -1)
     )
     ; END PROBLEM 17
 
