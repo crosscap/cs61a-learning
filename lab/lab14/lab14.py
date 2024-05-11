@@ -71,6 +71,8 @@ class Account(object):
             return 'Insufficient funds'
         self.balance = self.balance - amount
         return self.balance
+
+
 class CheckingAccount(Account):
     """A bank account that charges for withdrawals.
 
@@ -100,6 +102,7 @@ class CheckingAccount(Account):
 
     "*** YOUR CODE HERE ***"
 
+
 class Check(object):
     "*** YOUR CODE HERE ***"
 
@@ -107,7 +110,7 @@ class Check(object):
 def align_skeleton(skeleton, code):
     """
     Aligns the given skeleton with the given code, minimizing the edit distance between
-    the two. Both skeleton and code are assumed to be valid one-line strings of code. 
+    the two. Both skeleton and code are assumed to be valid one-line strings of code.
 
     >>> align_skeleton(skeleton="", code="")
     ''
@@ -145,7 +148,7 @@ def align_skeleton(skeleton, code):
         if skeleton_idx == len(skeleton) and code_idx < len(code):
             edits = "".join(["+[" + c + "]" for c in code[code_idx:]])
             return _________, ______________
-        
+
         possibilities = []
         skel_char, code_char = skeleton[skeleton_idx], code[code_idx]
         # Match
@@ -204,7 +207,8 @@ def reverse(lst):
     "*** YOUR CODE HERE ***"
 
 
-identity = lambda x: x
+def identity(x): return x
+
 
 def foldl2(link, fn, z):
     """ Write foldl using foldr
@@ -231,6 +235,7 @@ class Tree:
     >>> t.branches[1].is_leaf()
     True
     """
+
     def __init__(self, label, branches=[]):
         for b in branches:
             assert isinstance(b, Tree)
@@ -336,4 +341,3 @@ class Link:
             string += str(self.first) + ' '
             self = self.rest
         return string + str(self.first) + '>'
-

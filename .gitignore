@@ -292,3 +292,4 @@ ds/
 test.py
 test.sql
 temp.*
+temp/
