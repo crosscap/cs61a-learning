@@ -6,8 +6,18 @@
 ; Some utility functions that you may find useful to implement
 
 (define (zip pairs)
-  'replace-this-line)
+  (define (helper pairs first second)
+    (if (eq? pairs nil)
+        (list first second)
+        (helper (cdr pairs)
+                (append first (car (car pairs)))
+                (append second (car (cdr (car pairs)))))))
+  (helper pairs nil nil))
 
+(define (append lst item)
+      (if (eq? lst nil)
+          (cons item nil)
+          (cons (car lst) (append (cdr lst) item))))
 
 ;; Problem 15
 ;; Returns a list of two-element lists
@@ -45,10 +55,6 @@
 
 (define (nondecreaselist s)
     ; BEGIN PROBLEM 17
-    (define (append lst item)
-      (if (eq? lst nil)
-          (cons item nil)
-          (cons (car lst) (append (cdr lst) item))))
     (define (helper s res lst last)
       (cond ((eq? s nil) (append res lst))
             ((>= (car s) last) (helper (cdr s) res (append lst (car s)) (car s)))
@@ -71,12 +77,12 @@
 (define (let-to-lambda expr)
   (cond ((atom? expr)
          ; BEGIN PROBLEM EC
-         'replace-this-line
+         expr
          ; END PROBLEM EC
          )
         ((quoted? expr)
          ; BEGIN PROBLEM EC
-         'replace-this-line
+         expr
          ; END PROBLEM EC
          )
         ((or (lambda? expr)
@@ -85,19 +91,21 @@
                (params (cadr expr))
                (body   (cddr expr)))
            ; BEGIN PROBLEM EC
-           'replace-this-line
+           (cons form (cons params (map let-to-lambda body)))
            ; END PROBLEM EC
            ))
         ((let? expr)
          (let ((values (cadr expr))
                (body   (cddr expr)))
            ; BEGIN PROBLEM EC
-           'replace-this-line
+           (let ((forms (car (zip values)))
+                 (vals (car (cdr (zip values)))))
+             (cons (cons 'lambda (cons forms (map let-to-lambda body))) (map let-to-lambda vals)))
            ; END PROBLEM EC
            ))
         (else
          ; BEGIN PROBLEM EC
-         'replace-this-line
+         (map let-to-lambda expr)
          ; END PROBLEM EC
          )))
 

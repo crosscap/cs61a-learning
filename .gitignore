@@ -291,5 +291,6 @@ tempCodeRunnerFile.*
 ds/
 test.py
 test.sql
+test.scm
 temp.*
 temp/
