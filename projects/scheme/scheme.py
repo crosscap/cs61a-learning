@@ -582,8 +582,8 @@ class MuProcedure(Procedure):
         self.body = body
 
     # BEGIN PROBLEM 18
-    "*** YOUR CODE HERE ***"
-
+    def make_call_frame(self, args, env):
+        return env.make_child_frame(self.formals, args)
     # END PROBLEM 18
 
     def __str__(self):
@@ -600,7 +600,8 @@ def do_mu_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM 18
-    "*** YOUR CODE HERE ***"
+    body = expressions.rest
+    return MuProcedure(formals, body)
     # END PROBLEM 18
 
 
