@@ -160,3 +160,25 @@ Call expressions include an operator and 0 or more operands in parentheses
 ## Multiple try statements
 
 Control jumps to the except suite of the most recent try statement that handles that type of exception
+
+## Pure Functions
+
+- No re-assignment and no mutable data types
+- Name-value bindings are permanent
+
+## Advantages of functional programming
+
+- The value of an expression is independent of the order in which sub-expressions are
+evaluated
+- Sub-expressions can safely be evaluated in parallel or only on demand (lazily)
+- Referential transparency: The value of an expression does not change when we substitute
+one of its subexpression with the value of that subexpression
+
+## Tail Call
+
+A tail call is a call expression in a tail context:
+
+- **The last body sub-expression in a lambda expression**
+- **Sub-expressions 2 (consequent) & 3 (alternative) in a tail context if expression**
+- All non-predicate sub-expressions in a tail context cond
+- The last sub-expression in a tail context and, or, begin, or let
