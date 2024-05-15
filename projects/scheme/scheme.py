@@ -421,7 +421,7 @@ def do_cond_form(expressions, env):
             if expressions.rest != nil:
                 raise SchemeError('else must be last')
         else:
-            test = scheme_eval(clause.first, env, True)
+            test = scheme_eval(clause.first, env)
         if is_true_primitive(test):
             # BEGIN PROBLEM 13
             if clause.rest is nil:
@@ -694,7 +694,9 @@ def optimize_tail_calls(original_scheme_eval):
 
         result = Thunk(expr, env)
         # BEGIN PROBLEM 19
-        return complete_apply(original_scheme_eval, result.expr, result.env)
+        while isinstance(result, Thunk):
+            result = original_scheme_eval(result.expr, result.env)
+        return result
         # END PROBLEM 19
 
     return optimized_eval
@@ -703,7 +705,7 @@ def optimize_tail_calls(original_scheme_eval):
 ################################################################
 # Uncomment the following line to apply tail call optimization #
 ################################################################
-# scheme_eval = optimize_tail_calls(scheme_eval)
+scheme_eval = optimize_tail_calls(scheme_eval)
 
 
 ####################
