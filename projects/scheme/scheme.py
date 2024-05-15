@@ -76,11 +76,14 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 7
+    if expressions is nil:
+        return None
     doing_expr = expressions
     ret_val = None
-    while doing_expr is not nil:
+    while doing_expr.rest is not nil:
         ret_val = scheme_eval(doing_expr.first, env)
         doing_expr = doing_expr.rest
+    ret_val = scheme_eval(doing_expr.first, env, True)
     return ret_val
     # END PROBLEM 7
 
@@ -346,9 +349,9 @@ def do_if_form(expressions, env):
     """
     validate_form(expressions, 2, 3)
     if is_true_primitive(scheme_eval(expressions.first, env)):
-        return scheme_eval(expressions.rest.first, env)
+        return scheme_eval(expressions.rest.first, env, True)
     elif len(expressions) == 3:
-        return scheme_eval(expressions.rest.rest.first, env)
+        return scheme_eval(expressions.rest.rest.first, env, True)
 
 
 def do_and_form(expressions, env):
@@ -365,13 +368,16 @@ def do_and_form(expressions, env):
     False
     """
     # BEGIN PROBLEM 12
+    if expressions is nil:
+        return True
     result = True
-    while expressions is not nil:
+    while expressions.rest is not nil:
         result = scheme_eval(expressions.first, env)
         if is_false_primitive(result):
             return False
         expressions = expressions.rest
-    return result
+    result = scheme_eval(expressions.first, env, True)
+    return False if is_false_primitive(result) else result
     # END PROBLEM 12
 
 
@@ -389,12 +395,15 @@ def do_or_form(expressions, env):
     6
     """
     # BEGIN PROBLEM 12
-    while expressions is not nil:
+    if expressions is nil:
+        return False
+    while expressions.rest is not nil:
         result = scheme_eval(expressions.first, env)
         if is_true_primitive(result):
             return result
         expressions = expressions.rest
-    return False
+    result = scheme_eval(expressions.first, env, True)
+    return result if is_true_primitive(result) else False
     # END PROBLEM 12
 
 
@@ -412,7 +421,7 @@ def do_cond_form(expressions, env):
             if expressions.rest != nil:
                 raise SchemeError('else must be last')
         else:
-            test = scheme_eval(clause.first, env)
+            test = scheme_eval(clause.first, env, True)
         if is_true_primitive(test):
             # BEGIN PROBLEM 13
             if clause.rest is nil:
@@ -685,7 +694,7 @@ def optimize_tail_calls(original_scheme_eval):
 
         result = Thunk(expr, env)
         # BEGIN PROBLEM 19
-        "*** YOUR CODE HERE ***"
+        return complete_apply(original_scheme_eval, result.expr, result.env)
         # END PROBLEM 19
 
     return optimized_eval
