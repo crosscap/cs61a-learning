@@ -38,47 +38,47 @@ def paths(x, y):
 
 
 # 2.1
-def long_paths(tree, n):
-    """Return a list of all paths in tree with length at least n.
+# def long_paths(tree, n):
+#     """Return a list of all paths in tree with length at least n.
 
-    >>> t = Tree(3, [Tree(4), Tree(4), Tree(5)])
-    >>> left = Tree(1, [Tree(2), t])
-    >>> mid = Tree(6, [Tree(7, [Tree(8)]), Tree(9)])
-    >>> right = Tree(11, [Tree(12, [Tree(13, [Tree(14)])])])
-    >>> whole = Tree(0, [left, Tree(13), mid, right])
-    >>> for path in long_paths(whole, 2):
-    ...     print(path)
-    ...
-    <0 1 2>
-    <0 1 3 4>
-    <0 1 3 4>
-    <0 1 3 5>
-    <0 6 7 8>
-    <0 6 9>
-    <0 11 12 13 14>
-    >>> for path in long_paths(whole, 3):
-    ...     print(path)
-    ...
-    <0 1 3 4>
-    <0 1 3 4>
-    <0 1 3 5>
-    <0 6 7 8>
-    <0 11 12 13 14>
-    >>> long_paths(whole, 4)
-    [Link(0, Link(11, Link(12, Link(13, Link(14)))))]
-    """
+#     >>> t = Tree(3, [Tree(4), Tree(4), Tree(5)])
+#     >>> left = Tree(1, [Tree(2), t])
+#     >>> mid = Tree(6, [Tree(7, [Tree(8)]), Tree(9)])
+#     >>> right = Tree(11, [Tree(12, [Tree(13, [Tree(14)])])])
+#     >>> whole = Tree(0, [left, Tree(13), mid, right])
+#     >>> for path in long_paths(whole, 2):
+#     ...     print(path)
+#     ...
+#     <0 1 2>
+#     <0 1 3 4>
+#     <0 1 3 4>
+#     <0 1 3 5>
+#     <0 6 7 8>
+#     <0 6 9>
+#     <0 11 12 13 14>
+#     >>> for path in long_paths(whole, 3):
+#     ...     print(path)
+#     ...
+#     <0 1 3 4>
+#     <0 1 3 4>
+#     <0 1 3 5>
+#     <0 6 7 8>
+#     <0 11 12 13 14>
+#     >>> long_paths(whole, 4)
+#     [Link(0, Link(11, Link(12, Link(13, Link(14)))))]
+#     """
 
 
 # 2.2
-def widest_level(t):
-    """
-    >>> sum([[1], [2]], [])
-    [1, 2]
-    >>> t = Tree(3, [Tree(1, [Tree(1), Tree(5)]),
-    ...     Tree(4, [Tree(9, [Tree(2)])])])
-    >>> widest_level(t)
-    [1, 5, 9]
-    """
+# def widest_level(t):
+#     """
+#     >>> sum([[1], [2]], [])
+#     [1, 2]
+#     >>> t = Tree(3, [Tree(1, [Tree(1), Tree(5)]),
+#     ...     Tree(4, [Tree(9, [Tree(2)])])])
+#     >>> widest_level(t)
+#     [1, 5, 9]
+#     """
     # levels = []
     # x = [t]
     # while __________________________________________________:
@@ -125,32 +125,32 @@ def widest_level(t):
 
 
 # 5.1
-def remove_duplicates(lnk):
-    """
-    >>> lnk = Link(1, Link(1, Link(1, Link(1, Link(5)))))
-    >>> remove_duplicates(lnk)
-    >>> lnk
-    Link(1, Link(5))
-    """
+# def remove_duplicates(lnk):
+#     """
+#     >>> lnk = Link(1, Link(1, Link(1, Link(1, Link(5)))))
+#     >>> remove_duplicates(lnk)
+#     >>> lnk
+#     Link(1, Link(5))
+#     """
 
 
 # 6.1
-def repeated(f):
-    """
-    >>> double = lambda x: 2 * x
-    >>> funcs = repeated(double)
-    >>> identity = next(funcs)
-    >>> double = next(funcs)
-    >>> quad = next(funcs)
-    >>> oct = next(funcs)
-    >>> quad(1)
-    4
-    >>> oct(1)
-    8
-    >>> [g(1) for _, g in
-    ...     zip(range(5), repeated(lambda x: 2 * x))]
-    [1, 2, 4, 8, 16]
-    """
+# def repeated(f):
+#     """
+#     >>> double = lambda x: 2 * x
+#     >>> funcs = repeated(double)
+#     >>> identity = next(funcs)
+#     >>> double = next(funcs)
+#     >>> quad = next(funcs)
+#     >>> oct = next(funcs)
+#     >>> quad(1)
+#     4
+#     >>> oct(1)
+#     8
+#     >>> [g(1) for _, g in
+#     ...     zip(range(5), repeated(lambda x: 2 * x))]
+#     [1, 2, 4, 8, 16]
+#     """
     # g = ________________________________________________________________________
     # while True:
     #     ________________________________________________________________________
@@ -158,14 +158,14 @@ def repeated(f):
 
 
 # 6.3
-from operator import add, mul
-def accumulate(iterable, f):
-    """
-    >>> list(accumulate([1, 2, 3, 4, 5], add))
-    [1, 3, 6, 10, 15]
-    >>> list(accumulate([1, 2, 3, 4, 5], mul))
-    [1, 2, 6, 24, 120]
-    """
+# from operator import add, mul
+# def accumulate(iterable, f):
+#     """
+#     >>> list(accumulate([1, 2, 3, 4, 5], add))
+#     [1, 3, 6, 10, 15]
+#     >>> list(accumulate([1, 2, 3, 4, 5], mul))
+#     [1, 2, 6, 24, 120]
+#     """
     # it = iter(iterable)
     # ______________________________________________________________________________
     # ______________________________________________________________________________
