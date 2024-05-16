@@ -124,11 +124,18 @@ class CheckingAccount(Account):
         return Account.withdraw(self, amount + self.withdraw_fee)
 
     def deposit_check(self, check):
-        pass
+        if check.deposited is False and self.holder == check.holder:
+            check.deposited = True
+            return self.deposit(check.payable)
+        else:
+            print('The police have been notified.')
 
 
 class Check(object):
-    "*** YOUR CODE HERE ***"
+    def __init__(self, check_holder, payable):
+        self.holder = check_holder
+        self.payable = payable
+        self.deposited = False
 
 
 # def align_skeleton(skeleton, code):
