@@ -37,78 +37,98 @@ def num_splits(s, d):
     >>> num_splits([1, 4, 6, 8, 2, 9, 5], 3)
     12
     """
+    count = 0
+    memo = []
+
+    def split_counter(first, second):
+        nonlocal count
+        if sorted(first) not in memo:
+            memo.append(sorted(first))
+            memo.append(sorted(second))
+            if abs(sum(first) - sum(second)) <= d:
+                count += 1
+            first_copy = first[:]
+            for item in first_copy:
+                first.remove(item)
+                second.append(item)
+                split_counter(first, second)
+                first.append(item)
+                second.remove(item)
+
+    split_counter(s, [])
+    return count
 
 
+class Account(object):
+    """A bank account that allows deposits and withdrawals.
 
-# class Account(object):
-#     """A bank account that allows deposits and withdrawals.
+    >>> eric_account = Account('Eric')
+    >>> eric_account.deposit(1000000)   # depositing my paycheck for the week
+    1000000
+    >>> eric_account.transactions
+    [('deposit', 1000000)]
+    >>> eric_account.withdraw(100)      # buying dinner
+    999900
+    >>> eric_account.transactions
+    [('deposit', 1000000), ('withdraw', 100)]
+    """
 
-#     >>> eric_account = Account('Eric')
-#     >>> eric_account.deposit(1000000)   # depositing my paycheck for the week
-#     1000000
-#     >>> eric_account.transactions
-#     [('deposit', 1000000)]
-#     >>> eric_account.withdraw(100)      # buying dinner
-#     999900
-#     >>> eric_account.transactions
-#     [('deposit', 1000000), ('withdraw', 100)]
-#     """
+    interest = 0.02
 
-#     interest = 0.02
+    def __init__(self, account_holder):
+        self.balance = 0
+        self.holder = account_holder
 
-#     def __init__(self, account_holder):
-#         self.balance = 0
-#         self.holder = account_holder
+    def deposit(self, amount):
+        """Increase the account balance by amount and return the
+        new balance.
+        """
+        self.balance = self.balance + amount
+        return self.balance
 
-#     def deposit(self, amount):
-#         """Increase the account balance by amount and return the
-#         new balance.
-#         """
-#         self.balance = self.balance + amount
-#         return self.balance
-
-#     def withdraw(self, amount):
-#         """Decrease the account balance by amount and return the
-#         new balance.
-#         """
-#         if amount > self.balance:
-#             return 'Insufficient funds'
-#         self.balance = self.balance - amount
-#         return self.balance
-
-
-# class CheckingAccount(Account):
-#     """A bank account that charges for withdrawals.
-
-#     >>> check = Check("Steven", 42)  # 42 dollars, payable to Steven
-#     >>> steven_account = CheckingAccount("Steven")
-#     >>> eric_account = CheckingAccount("Eric")
-#     >>> eric_account.deposit_check(check)  # trying to steal steven's money
-#     The police have been notified.
-#     >>> eric_account.balance
-#     0
-#     >>> check.deposited
-#     False
-#     >>> steven_account.balance
-#     0
-#     >>> steven_account.deposit_check(check)
-#     42
-#     >>> check.deposited
-#     True
-#     >>> steven_account.deposit_check(check)  # can't cash check twice
-#     The police have been notified.
-#     """
-#     withdraw_fee = 1
-#     interest = 0.01
-
-#     def withdraw(self, amount):
-#         return Account.withdraw(self, amount + self.withdraw_fee)
-
-#     "*** YOUR CODE HERE ***"
+    def withdraw(self, amount):
+        """Decrease the account balance by amount and return the
+        new balance.
+        """
+        if amount > self.balance:
+            return 'Insufficient funds'
+        self.balance = self.balance - amount
+        return self.balance
 
 
-# class Check(object):
-#     "*** YOUR CODE HERE ***"
+class CheckingAccount(Account):
+    """A bank account that charges for withdrawals.
+
+    >>> check = Check("Steven", 42)  # 42 dollars, payable to Steven
+    >>> steven_account = CheckingAccount("Steven")
+    >>> eric_account = CheckingAccount("Eric")
+    >>> eric_account.deposit_check(check)  # trying to steal steven's money
+    The police have been notified.
+    >>> eric_account.balance
+    0
+    >>> check.deposited
+    False
+    >>> steven_account.balance
+    0
+    >>> steven_account.deposit_check(check)
+    42
+    >>> check.deposited
+    True
+    >>> steven_account.deposit_check(check)  # can't cash check twice
+    The police have been notified.
+    """
+    withdraw_fee = 1
+    interest = 0.01
+
+    def withdraw(self, amount):
+        return Account.withdraw(self, amount + self.withdraw_fee)
+
+    def deposit_check(self, check):
+        pass
+
+
+class Check(object):
+    "*** YOUR CODE HERE ***"
 
 
 # def align_skeleton(skeleton, code):
