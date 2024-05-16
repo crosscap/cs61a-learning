@@ -257,10 +257,14 @@ def foldl2(link, fn, z):
     6
     """
     def step(x, g):
-        "*** YOUR CODE HERE ***"
+        return lambda z: fn(g(z), x)
     return foldr(link, step, identity)(z)
 
 
+def foldr(link, step, identity):
+    if link is Link.empty:
+        return identity
+    return foldr(link.rest, step, step(link.first, identity))
 class Tree:
     """
     >>> t = Tree(3, [Tree(2, [Tree(5)]), Tree(4)])
