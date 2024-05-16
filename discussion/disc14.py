@@ -12,14 +12,14 @@ def paths(x, y):
     >>> paths(3, 3) # No calls is a valid path
     [[3]]
     """
-    # if _________________________:
-    #     return _________________________
-    # elif _________________________:
-    #     return _________________________
-    # else:
-    #     a = _________________________
-    #     b = _________________________
-    #     return _________________________
+    if x == y:
+        return [[x]]
+    elif 2 * x > y:
+        return [[x] + path for path in paths(x+1, y)]
+    else:
+        a = [[x] + path for path in paths(x+1, y)]
+        b = [[x] + path for path in paths(x*2, y)]
+        return a + b
 
 
 # 1.2
