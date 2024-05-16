@@ -23,18 +23,19 @@ def paths(x, y):
 
 
 # 1.2
-# def merge(s1, s2):
-#     """ Merges two sorted lists """
-#     if len(s1) == 0:
-#         return s2
-#     elif len(s2) == 0:
-#         return s1
-#     elif s1[0] < s2[0]:
-#         return [s1[0]] + merge(s1[1:], s2)
-#     else:
-#         return [s2[0]] + merge(s1, s2[1:])
+def merge(s1, s2):
+    """ Merges two sorted lists """
+    if len(s1) == 0:
+        return s2
+    elif len(s2) == 0:
+        return s1
+    elif s1[0] < s2[0]:
+        return [s1[0]] + merge(s1[1:], s2)
+    else:
+        return [s2[0]] + merge(s1, s2[1:])
 
-# def mergesort(seq):
+def mergesort(seq):
+    pass
 
 
 # 2.1

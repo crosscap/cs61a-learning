@@ -200,60 +200,65 @@ class Check(object):
 #     return result
 
 
-# def foldl(link, fn, z):
-#     """ Left fold
-#     >>> lst = Link(3, Link(2, Link(1)))
-#     >>> foldl(lst, sub, 0) # (((0 - 3) - 2) - 1)
-#     -6
-#     >>> foldl(lst, add, 0) # (((0 + 3) + 2) + 1)
-#     6
-#     >>> foldl(lst, mul, 1) # (((1 * 3) * 2) * 1)
-#     6
-#     """
-#     if link is Link.empty:
-#         return z
-#     "*** YOUR CODE HERE ***"
-#     return foldl(______, ______, ______)
+def foldl(link, fn, z):
+    """ Left fold
+    >>> lst = Link(3, Link(2, Link(1)))
+    >>> foldl(lst, sub, 0) # (((0 - 3) - 2) - 1)
+    -6
+    >>> foldl(lst, add, 0) # (((0 + 3) + 2) + 1)
+    6
+    >>> foldl(lst, mul, 1) # (((1 * 3) * 2) * 1)
+    6
+    """
+    if link is Link.empty:
+        return z
+    return foldl(link.rest, fn, fn(z, link.first))
 
 
-# def filterl(lst, pred):
-#     """ Filters LST based on PRED
-#     >>> lst = Link(4, Link(3, Link(2, Link(1))))
-#     >>> filterl(lst, lambda x: x % 2 == 0)
-#     Link(4, Link(2))
-#     """
-#     "*** YOUR CODE HERE ***"
+def filterl(lst, pred):
+    """ Filters LST based on PRED
+    >>> lst = Link(4, Link(3, Link(2, Link(1))))
+    >>> filterl(lst, lambda x: x % 2 == 0)
+    Link(4, Link(2))
+    """
+    def fn(x, y):
+        if pred(y):
+            return Link(y, x)
+        else:
+            return x
+
+    return reverse(foldl(lst, fn, Link.empty))
 
 
-# def reverse(lst):
-#     """ Reverses LST with foldl
-#     >>> reverse(Link(3, Link(2, Link(1))))
-#     Link(1, Link(2, Link(3)))
-#     >>> reverse(Link(1))
-#     Link(1)
-#     >>> reversed = reverse(Link.empty)
-#     >>> reversed is Link.empty
-#     True
-#     """
-#     "*** YOUR CODE HERE ***"
+def reverse(lst):
+    """ Reverses LST with foldl
+    >>> reverse(Link(3, Link(2, Link(1))))
+    Link(1, Link(2, Link(3)))
+    >>> reverse(Link(1))
+    Link(1)
+    >>> reversed = reverse(Link.empty)
+    >>> reversed is Link.empty
+    True
+    """
+    return foldl(lst, lambda x, y: Link(y, x), Link.empty)
 
 
-# def identity(x): return x
+def identity(x): return x
 
 
-# def foldl2(link, fn, z):
-#     """ Write foldl using foldr
-#     >>> list = Link(3, Link(2, Link(1)))
-#     >>> foldl2(list, sub, 0) # (((0 - 3) - 2) - 1)
-#     -6
-#     >>> foldl2(list, add, 0) # (((0 + 3) + 2) + 1)
-#     6
-#     >>> foldl2(list, mul, 1) # (((1 * 3) * 2) * 1)
-#     6
-#     """
-#     def step(x, g):
-#         "*** YOUR CODE HERE ***"
-#     return foldr(link, step, identity)(z)
+def foldl2(link, fn, z):
+    """ Write foldl using foldr
+    >>> list = Link(3, Link(2, Link(1)))
+    >>> foldl2(list, sub, 0) # (((0 - 3) - 2) - 1)
+    -6
+    >>> foldl2(list, add, 0) # (((0 + 3) + 2) + 1)
+    6
+    >>> foldl2(list, mul, 1) # (((1 * 3) * 2) * 1)
+    6
+    """
+    def step(x, g):
+        "*** YOUR CODE HERE ***"
+    return foldr(link, step, identity)(z)
 
 
 class Tree:
