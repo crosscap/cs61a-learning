@@ -1,3 +1,6 @@
+from operator import add, mul
+
+
 class Tree:
     """
     >>> t = Tree(3, [Tree(2, [Tree(5)]), Tree(4)])
@@ -217,7 +220,7 @@ def long_paths(tree: Tree, n: int):
         return paths
 
 
-2.2
+# 2.2
 def widest_level(t: Tree):
     """
     >>> sum([[1], [2]], [])
@@ -235,7 +238,7 @@ def widest_level(t: Tree):
     return max(levels, key=lambda lst: len(lst))
 
 
-3.1
+# 3.1
 def question_3_1_test():
     """
     >>> cats = [1, 2]
@@ -263,87 +266,165 @@ def question_3_1_test():
 
 
 # 3.2
-# def bake(banana, bread):
-#     _______________(____________(__________)) # This line is Multiple Choice
-#     # Select all correct answers for the blank above
-#     # A. banana.append(bread.append(1))
-#     # B. bread.append(banana.append(1))
-#     # C. banana.extend([bread.extend([1])])
-#     # D. bread.extend([banana.extend([1])])
-#     bread += banana[: (len(______________) - ______________)]
-#     banana._______________(bread[___________[______________]])
-#     return ___________, ______________
+def question_3_2_test(bake):
+    s = [1]
+    banana, bread = bake(s, [7, 2, s])
+
+
+def bake(banana, bread):
+    # _______________(____________(__________))  # This line is Multiple Choice
+    banana.append(bread.append(1))      # A
+    banana.extend([bread.extend([1])])  # C
+    # Select all correct answers for the blank above
+    # A. banana.append(bread.append(1))
+    # B. bread.append(banana.append(1))
+    # C. banana.extend([bread.extend([1])])
+    # D. bread.extend([banana.extend([1])])
+    bread += banana[: (len(banana) - 1)]
+    banana.append(bread[bread[1]])
+    return banana, bread
 
 
 # 3.3
-# def amon(g):
-#     _____________________
-#     def u(s):
-#         ______________________
-#         f = lambda x: x + g._________ + n
-#         _________________
+def question_3_3_test(bake):
+    g = [1, 2, 3]
+    skeld = amon(g)
+    pink = skeld(1)
+    purple = skeld(2)
 
-#         return f(s)
-#     return u
+
+def amon(g):
+    n = 0
+
+    def u(s):
+        nonlocal n
+        def f(x): return x + g.pop() + n
+        n += 1
+        return f(s)
+    return u
 
 
 # 4.1
-# class Emotion(_______):
-#     def __init__(self):
-#     def feeling(self, other):
+def question_4_1_test():
+    """
+    >>> Emotion.num
+    0
+    >>> joy = Joy()
+    >>> sadness = Sadness()
+    >>> Emotion.num # number of Emotion instances created
+    2
+    >>> joy.power
+    5
+    >>> joy.catchphrase() # Print Joy's catchphrase
+    Think positive thoughts
+    >>> sadness.catchphrase() #Print Sad's catchphrase
+    I'm positive you will get lost
+    >>> sadness.power
+    5
+    >>> joy.feeling(sadness) # When both Emotions have same power value, print "Together"
+    Together
+    >>> sadness.feeling(joy)
+    Together
+    >>> joy.power = 7
+    >>> joy.feeling(sadness) # Print the catchphrase of the more powerful feeling before the less powerful feeling
+    Think positive thoughts
+    I'm positive you will get lost
+    >>> sadness.feeling(joy)
+    Think positive thoughts
+    I'm positive you will get lost
+    """
 
-# class Joy(_______):
-#     def catchphrase(self):
 
-# class Sadness(_______):
-#     def catchphrase(self):
+class Emotion(object):
+    num = 0
+
+    def __init__(self):
+        self.power = 5
+        Emotion.num += 1
+
+    def feeling(self, other):
+        if self.power == other.power:
+            print('Together')
+        elif self.power > other.power:
+            self.catchphrase()
+            other.catchphrase()
+        else:
+            other.catchphrase()
+            self.catchphrase()
+
+
+class Joy(Emotion):
+    def catchphrase(self):
+        print('Think positive thoughts')
+
+
+class Sadness(Emotion):
+    def catchphrase(self):
+        print("I'm positive you will get lost")
 
 
 # 5.1
-# def remove_duplicates(lnk):
-#     """
-#     >>> lnk = Link(1, Link(1, Link(1, Link(1, Link(5)))))
-#     >>> remove_duplicates(lnk)
-#     >>> lnk
-#     Link(1, Link(5))
-#     """
+def remove_duplicates(lnk: Link) -> None:
+    """
+    >>> lnk = Link(1, Link(1, Link(1, Link(1, Link(5)))))
+    >>> remove_duplicates(lnk)
+    >>> lnk
+    Link(1, Link(5))
+    """
+    if lnk is Link.empty or lnk.rest is Link.empty:
+        return
+    else:
+        if lnk.first == lnk.rest.first:
+            lnk.rest = lnk.rest.rest
+            remove_duplicates(lnk)
+        else:
+            remove_duplicates(lnk.rest)
 
 
 # 6.1
-# def repeated(f):
-#     """
-#     >>> double = lambda x: 2 * x
-#     >>> funcs = repeated(double)
-#     >>> identity = next(funcs)
-#     >>> double = next(funcs)
-#     >>> quad = next(funcs)
-#     >>> oct = next(funcs)
-#     >>> quad(1)
-#     4
-#     >>> oct(1)
-#     8
-#     >>> [g(1) for _, g in
-#     ...     zip(range(5), repeated(lambda x: 2 * x))]
-#     [1, 2, 4, 8, 16]
-#     """
-    # g = ________________________________________________________________________
-    # while True:
-    #     ________________________________________________________________________
-    #     ________________________________________________________________________
+def repeated(f):
+    """
+    >>> double = lambda x: 2 * x
+    >>> funcs = repeated(double)
+    >>> identity = next(funcs)
+    >>> double = next(funcs)
+    >>> quad = next(funcs)
+    >>> oct = next(funcs)
+    >>> identity(1)
+    1
+    >>> double(1)
+    2
+    >>> quad(1)
+    4
+    >>> oct(1)
+    8
+    >>> [g(1) for _, g in
+    ...     zip(range(5), repeated(lambda x: 2 * x))]
+    [1, 2, 4, 8, 16]
+    """
+    def g(x): return x
+    while True:
+        yield g
+        g = (lambda last_g: lambda x: f(last_g(x)))(g)
+
+
+# 6.2
+# CAN'T WORK! (I also wirte answer like this......)
+# The value g changes with each iteration so the bodies
+# of the lambdas yielded change as well.
 
 
 # 6.3
-# from operator import add, mul
-# def accumulate(iterable, f):
-#     """
-#     >>> list(accumulate([1, 2, 3, 4, 5], add))
-#     [1, 3, 6, 10, 15]
-#     >>> list(accumulate([1, 2, 3, 4, 5], mul))
-#     [1, 2, 6, 24, 120]
-#     """
-    # it = iter(iterable)
-    # ______________________________________________________________________________
-    # ______________________________________________________________________________
-    # for __________________________________________________________________________:
-    #     __________________________________________________________________________
-    #     __________________________________________________________________________
+def accumulate(iterable, f):
+    """
+    >>> list(accumulate([1, 2, 3, 4, 5], add))
+    [1, 3, 6, 10, 15]
+    >>> list(accumulate([1, 2, 3, 4, 5], mul))
+    [1, 2, 6, 24, 120]
+    """
+    it = iter(iterable)
+    new_num = next(it)
+    yield new_num
+    for item in list(it):
+        new_num = f(new_num, item)
+        yield new_num

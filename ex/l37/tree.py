@@ -23,7 +23,7 @@ class Tree:
         return not self.branches
 
 
-def bigs(t):
+def bigs(t: Tree):
     """Return the number of nodes in t that are larger than all their ancestors.
     >>> a = Tree(1, [Tree(4, [Tree(4), Tree(5)]), Tree(3, [Tree(0, [Tree(2)])])])
     >>> bigs(a)
@@ -31,7 +31,7 @@ def bigs(t):
     """
 
 
-def bigs_nonlocal(t):
+def bigs_nonlocal(t: Tree):
     """Return the number of nodes in t that are larger than all their ancestors.
 
     >>> p = Tree(1, [Tree(4, [Tree(4), Tree(5)]), Tree(3, [Tree(0, [Tree(6)])])])
@@ -43,7 +43,7 @@ def bigs_nonlocal(t):
     """
 
 
-def smalls(t):
+def smalls(t: Tree):
     """Return the non-leaf nodes in t that are smaller than all their descendants.
     >>> a = Tree(1, [Tree(2, [Tree(4), Tree(5)]), Tree(3, [Tree(0, [Tree(6)])])])
     >>> sorted([t.label for t in smalls(a)])
