@@ -189,11 +189,13 @@ def align_skeleton(skeleton, code):
             possibilities.append((edit, cost))
         # Insert
         possibility = helper_align(skeleton_idx, code_idx + 1)
-        edit, cost = "+[" + code_char + "]" + possibility[0], possibility[1] + 1
+        edit, cost = "+[" + code_char + "]" + \
+            possibility[0], possibility[1] + 1
         possibilities.append((edit, cost))
         # Delete
         possibility = helper_align(skeleton_idx + 1, code_idx)
-        edit, cost = "-[" + skel_char + "]" + possibility[0], 1 + possibility[1]
+        edit, cost = "-[" + skel_char + "]" + \
+            possibility[0], 1 + possibility[1]
         possibilities.append((edit, cost))
         return min(possibilities, key=lambda x: x[1])
     result, cost = helper_align(0, 0)[0], helper_align(0, 0)[1]
