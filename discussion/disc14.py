@@ -273,8 +273,8 @@ def question_3_2_test(bake):
 
 def bake(banana, bread):
     # _______________(____________(__________))  # This line is Multiple Choice
-    banana.append(bread.append(1))      # A
-    banana.extend([bread.extend([1])])  # C
+    banana.append(bread.append(1))          # A
+    # banana.extend([bread.extend([1])])    # C
     # Select all correct answers for the blank above
     # A. banana.append(bread.append(1))
     # B. bread.append(banana.append(1))
