@@ -29,6 +29,16 @@ def bigs(t: Tree):
     >>> bigs(a)
     4
     """
+    def f(a, x):
+        """
+        a: node in t
+        x: max ancestor
+        """
+        if a.label > x:
+            return 1 + sum([f(b, a.label) for b in a.branches])
+        else:
+            return sum([f(b, x) for b in a.branches])
+    return f(t, t.label-1)
 
 
 def bigs_nonlocal(t: Tree):
@@ -41,6 +51,15 @@ def bigs_nonlocal(t: Tree):
     >>> bigs_nonlocal(q)
     4
     """
+    n = 0
+    def f(a, x):
+        nonlocal n
+        if a.label > x:
+            n += 1
+        for b in a.branches:
+            f(b, x if x > a.label else a.label)
+    f(t, t.label-1)
+    return n
 
 
 def smalls(t: Tree):
@@ -49,3 +68,27 @@ def smalls(t: Tree):
     >>> sorted([t.label for t in smalls(a)])
     [0, 2]
     """
+    result = []
+    def process(t: Tree):
+        """Find smallest label in t and maybe add t to result."""
+        # My Solution
+        # if not t.is_leaf():
+        #     smallest = min([process(b) for b in t.branches])
+        #     if t.label < smallest:
+        #         result.append(t)
+        #         return t.label
+        #     else:
+        #         return smallest
+        # else:
+        #
+
+        # Use gived template
+        if t.is_leaf():
+            return t.label
+        else:
+            smallest = min([process(b) for b in t.branches])
+            if t.label < smallest:
+                result.append(t)
+            return min(t.label, smallest)
+    process(t)
+    return result
