@@ -77,8 +77,8 @@ Idea: The state of an iteration can be passed as arguments.
 
 - Lets us manipulate compound values as units
 - Isolate two parts of any program that uses data
-    - How data are represented (as parts)
-    - How data are manipulated (as units)
+  - How data are represented (as parts)
+  - How data are manipulated (as units)
 
 ## Objects
 
@@ -105,12 +105,12 @@ A class serves as a template for its instances.
 
 - data
 - functions
-    - constructor (`__init__`)
-        - allocate memory for the object
-        - initializes the object with values
-        - returns address of the object
-    - selectors
-    - methods (functions)
+  - constructor (`__init__`)
+    - allocate memory for the object
+    - initializes the object with values
+    - returns address of the object
+  - selectors
+  - methods (functions)
 
 ## When a class is called
 
@@ -121,7 +121,7 @@ A class serves as a template for its instances.
 
 - Functions, which we have been creating since the beginning of the course, and
 - Bound methods, which couple together a function and the object on which that method will be invoked
-    > object + function = bound method
+  > object + function = bound method
 
 ## Looking Up Attribute Names on Classe
 

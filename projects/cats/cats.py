@@ -147,22 +147,22 @@ def pawssible_patches(start, goal, limit):
     # assert False, 'Remove this line'
     # print("DEBUG:", start, goal, limit)
     if start == '' or goal == '' or limit < 0:  # Fill in the condition
-        # BEGIN
+        # BEGIN PROBLEM 7
         return abs(len(goal) - len(start))
-        # END
+        # END PROBLEM 7
 
     elif start[0] == goal[0]:  # Feel free to remove or add additional cases
-        # BEGIN
+        # BEGIN PROBLEM 7
         return pawssible_patches(start[1:], goal[1:], limit)
-        # END
+        # END PROBLEM 7
 
     else:
         add_diff = pawssible_patches(goal[0]+start, goal, limit-1)
         remove_diff = pawssible_patches(start[1:], goal, limit-1)
         substitute_diff = pawssible_patches(start[1:], goal[1:], limit-1)
-        # BEGIN
+        # BEGIN PROBLEM 7
         return min(add_diff, remove_diff, substitute_diff) + 1
-        # END
+        # END PROBLEM 7
 
 
 def final_diff(start, goal, limit):

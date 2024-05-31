@@ -52,6 +52,7 @@ def bigs_nonlocal(t: Tree):
     4
     """
     n = 0
+
     def f(a, x):
         nonlocal n
         if a.label > x:
@@ -69,6 +70,7 @@ def smalls(t: Tree):
     [0, 2]
     """
     result = []
+
     def process(t: Tree):
         """Find smallest label in t and maybe add t to result."""
         # My Solution
