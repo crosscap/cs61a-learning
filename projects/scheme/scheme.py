@@ -1,3 +1,4 @@
+#! /bin/env python3
 """A Scheme interpreter and its read-eval-print loop."""
 from __future__ import print_function  # Python 2 compatibility
 
@@ -275,7 +276,8 @@ def do_define_form(expressions: Pair, env: Frame):
     >>> scheme_eval(read_line("(f 3)"), env)
     5
     """
-    validate_form(expressions, 2)  # Checks that expressions is a list of length at least 2
+    validate_form(
+        expressions, 2)  # Checks that expressions is a list of length at least 2
     target = expressions.first
     if scheme_symbolp(target):
         # Checks that expressions is a list of length exactly 2
