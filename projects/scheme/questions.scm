@@ -10,14 +10,9 @@
     (if (eq? pairs nil)
         (list first second)
         (helper (cdr pairs)
-                (append first (car (car pairs)))
-                (append second (car (cdr (car pairs)))))))
+                (append first (list (caar pairs)))
+                (append second (cdar pairs)))))
   (helper pairs nil nil))
-
-(define (append lst item)
-      (if (eq? lst nil)
-          (cons item nil)
-          (cons (car lst) (append (cdr lst) item))))
 
 ;; Problem 15
 ;; Returns a list of two-element lists
@@ -26,7 +21,8 @@
   (define (helper s index)
     (if (eq? s nil)
         nil
-        (cons (cons index (cons (car s) nil)) (helper (cdr s) (+ index 1)))))
+        (cons (cons index (cons (car s) nil))
+              (helper (cdr s) (+ index 1)))))
   (helper s 0)
   )
   ; END PROBLEM 15
@@ -56,9 +52,15 @@
 (define (nondecreaselist s)
     ; BEGIN PROBLEM 17
     (define (helper s res lst last)
-      (cond ((eq? s nil) (append res lst))
-            ((>= (car s) last) (helper (cdr s) res (append lst (car s)) (car s)))
-            (else (helper (cdr s) (append res lst) (cons (car s) nil) (car s)))))
+      (cond ((eq? s nil) (append res (list lst)))
+            ((>= (car s) last) (helper (cdr s)
+                                       res
+                                       (append lst (list (car s)))
+                                       (car s)))
+            (else (helper (cdr s)
+                          (append res (list lst))
+                          (cons (car s) nil)
+                          (car s)))))
     (helper s nil nil -1)
     )
     ; END PROBLEM 17
@@ -99,8 +101,9 @@
                (body   (cddr expr)))
            ; BEGIN PROBLEM EC
            (let ((forms (car (zip values)))
-                 (vals (car (cdr (zip values)))))
-             (cons (cons 'lambda (cons forms (map let-to-lambda body))) (map let-to-lambda vals)))
+                 (vals (cadr (zip values))))
+             (cons (cons 'lambda (cons forms (map let-to-lambda body)))
+                   (map let-to-lambda vals)))
            ; END PROBLEM EC
            ))
         (else
@@ -108,4 +111,3 @@
          (map let-to-lambda expr)
          ; END PROBLEM EC
          )))
-
