@@ -5,6 +5,14 @@
 
 ; Some utility functions that you may find useful to implement
 
+;; zip a series of pair to tow list
+;; Return the list of tow list
+;; (zip '((1 2) (3 4) (5 6)))
+;; ((1 3 5) (2 4 6))
+;; Notice: Each pair should just have tow element (PAIR!)
+;; otherwise the following element will be packed together
+;; (zip '((1 2 3) (3 4) (5 6 7)))
+;; ((1 3 5) (2 3 4 6 7))
 (define (zip pairs)
   (define (helper pairs first second)
     (if (eq? pairs nil)
