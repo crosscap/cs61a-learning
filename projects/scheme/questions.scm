@@ -5,7 +5,7 @@
 
 ; Some utility functions that you may find useful to implement
 
-;; zip a series of pair to tow list
+;; zip a series of pairs to tow list
 ;; Return the list of tow list
 ;; (zip '((1 2) (3 4) (5 6)))
 ;; ((1 3 5) (2 4 6))
